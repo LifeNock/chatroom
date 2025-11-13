@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Room</title>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 50px auto; background: #1e1e1e; color: #fff; }
+    h2 { text-align: center; }
+    #messages { border: 2px solid #444; height: 400px; overflow-y: scroll; padding: 15px; 
+                margin-bottom: 15px; background: #2d2d2d; border-radius: 8px; }
+    .message { margin: 8px 0; padding: 10px; background: #3a3a3a; border-radius: 5px; 
+               border-left: 3px solid #0d7377; }
+    .username { color: #4da8da; font-weight: bold; }
+    .time { color: #888; font-size: 0.8em; margin-left: 10px; }
+    #inputArea { display: flex; gap: 10px; }
+    input { padding: 12px; border: 2px solid #444; background: #2d2d2d; color: #fff; 
+            border-radius: 5px; font-size: 14px; }
+    #username { width: 25%; }
+    #messageInput { flex: 1; }
+    button { padding: 12px 25px; background: #0d7377; border: none; color: white; 
+             border-radius: 5px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #14a085; }
+    #status { text-align: center; color: #888; margin: 10px 0; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h2>🚤 Row Your Boat Chat</h2>
+  <div id="status">Loading messages...</div>
+  <div id="messages"></div>
+  <div id="inputArea">
+    <input type="text" id="username" placeholder="Your name" maxlength="20">
+    <input type="text" id="messageInput" placeholder="Type message..." maxlength="500">
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
+  <script>
+    const GITHUB_TOKEN = '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'; // PASTE YOUR TOKEN
+    const REPO_OWNER = 'lifenock'; // Your GitHub username
+    const REPO_NAME = 'chatroom';
+    const ISSUE_NUMBER = 1; // We'll use issue #1 as our chat
+
+    let lastCommentId = 0;
+
+    // Load messages every 3 seconds
+    async function loadMessages() {
+      try {
+        const response = await fetch(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ISSUE_NUMBER}/comments`,
+          {
+            headers: {
+              'Authorization': `token ${GITHUB_TOKEN}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          }
+        );
+        
+        if (!response.ok) {
+          document.getElementById('status').innerText = 'Error loading messages';
+          return;
+        }
+
+        const comments = await response.json();
+        const messagesDiv = document.getElementById('messages');
+        
+        comments.forEach(comment => {
+          if (comment.id > lastCommentId) {
+            const time = new Date(comment.created_at).toLocaleTimeString();
+            const body = comment.body;
+            
+            // Parse username and message (format: "USERNAME: message")
+            let username = 'Anonymous';
+            let message = body;
+            if (body.includes(':')) {
+              const parts = body.split(':');
+              username = parts[0].trim();
+              message = parts.slice(1).join(':').trim();
+            }
+            
+            messagesDiv.innerHTML += `
+              <div class="message">
+                <span class="username">${escapeHtml(username)}</span>
+                <span class="time">${time}</span>
+                <div>${escapeHtml(message)}</div>
+              </div>`;
+            lastCommentId = comment.id;
+          }
+        });
+        
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        document.getElementById('status').innerText = `${comments.length} messages`;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('status').innerText = 'Connection error';
+      }
+    }
+
+    async function sendMessage() {
+      const username = document.getElementById('username').value.trim() || 'Anonymous';
+      const message = document.getElementById('messageInput').value.trim();
+      
+      if (!message) return;
+      
+      try {
+        const response = await fetch(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ISSUE_NUMBER}/comments`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `token ${GITHUB_TOKEN}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              body: `${username}: ${message}`
+            })
+          }
+        );
+        
+        if (response.ok) {
+          document.getElementById('messageInput').value = '';
+          loadMessages(); // Reload immediately after sending
+        } else {
+          alert('Failed to send message');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error sending message');
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Enter key to send
+    document.getElementById('messageInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // Load messages initially and every 3 seconds
+    loadMessages();
+    setInterval(loadMessages, 3000);
+  </script>
+</body>
+</html>
