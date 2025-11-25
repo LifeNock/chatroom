@@ -635,7 +635,7 @@
 
     function processMessageContent(text) {
       const escaped = escapeHtml(text);
-      const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/i\.imgur\.com\/[^\s]+|https?:\/\/files\.catbox\.moe\/[^\s]+)/gi;
+      const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
       return escaped.replace(imageRegex, (url) => {
         return `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`;
       });
@@ -693,24 +693,31 @@
       document.getElementById('uploadProgress').textContent = 'Uploading...';
       
       try {
-        const formData = new FormData();
-        formData.append('reqtype', 'fileupload');
-        formData.append('fileToUpload', file);
+        // Generate unique filename
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
         
-        const response = await fetch('https://catbox.moe/user/api.php', {
-          method: 'POST',
-          body: formData
-        });
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from('images')
+          .upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
         
-        const url = await response.text();
-        if (url.startsWith('https://')) {
-          document.getElementById('uploadProgress').textContent = '';
-          return url;
-        }
-        throw new Error('Upload failed');
+        if (error) throw error;
+        
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('images')
+          .getPublicUrl(fileName);
+        
+        document.getElementById('uploadProgress').textContent = '';
+        return urlData.publicUrl;
+        
       } catch (error) {
         console.error('Upload error:', error);
-        document.getElementById('uploadProgress').textContent = 'Upload failed - paste URL instead';
+        document.getElementById('uploadProgress').textContent = 'Upload failed';
         setTimeout(() => {
           document.getElementById('uploadProgress').textContent = '';
         }, 3000);
