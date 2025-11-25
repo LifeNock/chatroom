@@ -59,13 +59,8 @@
       font-size: 15px;
     }
 
-    .auth-box input::placeholder {
-      color: #6d6f78;
-    }
-
-    .auth-box input:focus {
-      outline: 2px solid #5865f2;
-    }
+    .auth-box input::placeholder { color: #6d6f78; }
+    .auth-box input:focus { outline: 2px solid #5865f2; }
 
     .auth-box button {
       width: 100%;
@@ -81,9 +76,7 @@
       transition: background 0.15s;
     }
 
-    .auth-box button:hover {
-      background: #4752c4;
-    }
+    .auth-box button:hover { background: #4752c4; }
 
     .auth-box button.secondary {
       background: transparent;
@@ -91,9 +84,7 @@
       color: #dbdee1;
     }
 
-    .auth-box button.secondary:hover {
-      background: #3a3c41;
-    }
+    .auth-box button.secondary:hover { background: #3a3c41; }
 
     .auth-box .error {
       color: #f47067;
@@ -116,9 +107,7 @@
       height: 100vh;
     }
 
-    .chat-container.active {
-      display: flex;
-    }
+    .chat-container.active { display: flex; }
 
     .header {
       background: #2b2d31;
@@ -155,9 +144,7 @@
       color: #fff;
     }
 
-    .connection-status.disconnected {
-      background: #f47067;
-    }
+    .connection-status.disconnected { background: #f47067; }
 
     .header-right {
       margin-left: auto;
@@ -166,10 +153,22 @@
       gap: 12px;
     }
 
-    .online-count {
+    .online-users {
+      display: flex;
+      align-items: center;
+      gap: 4px;
       font-size: 12px;
       color: #949ba4;
     }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #57ab5a;
+      border-radius: 50%;
+    }
+
+    .online-count { font-size: 12px; color: #949ba4; }
 
     .user-menu {
       display: flex;
@@ -179,11 +178,10 @@
       padding: 4px 8px;
       border-radius: 4px;
       transition: background 0.15s;
+      position: relative;
     }
 
-    .user-menu:hover {
-      background: #3a3c41;
-    }
+    .user-menu:hover { background: #3a3c41; }
 
     .user-menu-avatar {
       width: 28px;
@@ -199,16 +197,8 @@
       overflow: hidden;
     }
 
-    .user-menu-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .user-menu-name {
-      font-size: 13px;
-      color: #f2f3f5;
-    }
+    .user-menu-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-menu-name { font-size: 13px; color: #f2f3f5; }
 
     .dropdown {
       position: absolute;
@@ -223,9 +213,7 @@
       z-index: 100;
     }
 
-    .dropdown.active {
-      display: block;
-    }
+    .dropdown.active { display: block; }
 
     .dropdown-item {
       padding: 10px 12px;
@@ -238,13 +226,68 @@
       gap: 10px;
     }
 
-    .dropdown-item:hover {
-      background: #3a3c41;
+    .dropdown-item:hover { background: #3a3c41; }
+    .dropdown-item.danger { color: #f47067; }
+
+    /* Online Users Panel */
+    .online-panel {
+      position: absolute;
+      top: 50px;
+      right: 100px;
+      background: #1e1f22;
+      border-radius: 8px;
+      padding: 12px;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      display: none;
+      z-index: 100;
     }
 
-    .dropdown-item.danger {
-      color: #f47067;
+    .online-panel.active { display: block; }
+
+    .online-panel h3 {
+      font-size: 12px;
+      color: #949ba4;
+      margin-bottom: 8px;
+      text-transform: uppercase;
     }
+
+    .online-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+    }
+
+    .online-user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #5865f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .online-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .online-user-avatar .status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      background: #57ab5a;
+      border-radius: 50%;
+      border: 2px solid #1e1f22;
+    }
+
+    .online-user-name { font-size: 13px; color: #dbdee1; }
 
     #messages {
       flex: 1;
@@ -255,19 +298,9 @@
       gap: 4px;
     }
 
-    #messages::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #messages::-webkit-scrollbar-track {
-      background: #2b2d31;
-      border-radius: 4px;
-    }
-
-    #messages::-webkit-scrollbar-thumb {
-      background: #1a1b1e;
-      border-radius: 4px;
-    }
+    #messages::-webkit-scrollbar { width: 8px; }
+    #messages::-webkit-scrollbar-track { background: #2b2d31; border-radius: 4px; }
+    #messages::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
 
     .message {
       padding: 8px 12px;
@@ -279,27 +312,15 @@
       gap: 12px;
     }
 
-    .message.pending {
-      opacity: 0.6;
-    }
-
-    .message:hover {
-      background: #2e3035;
-    }
-
-    .message:hover .reply-btn {
-      opacity: 1;
-    }
+    .message.pending { opacity: 0.6; }
+    .message:hover { background: #2e3035; }
+    .message:hover .message-actions { opacity: 1; }
+    .message.mentioned { background: rgba(250, 168, 26, 0.1); border-left: 3px solid #faa81a; }
+    .message.editing { background: rgba(88, 101, 242, 0.1); }
 
     @keyframes messageIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .message-avatar {
@@ -317,16 +338,9 @@
       overflow: hidden;
     }
 
-    .message-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .message-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-    .message-body {
-      flex: 1;
-      min-width: 0;
-    }
+    .message-body { flex: 1; min-width: 0; }
 
     .message-header {
       display: flex;
@@ -335,20 +349,11 @@
       margin-bottom: 4px;
     }
 
-    .username {
-      font-weight: 600;
-      font-size: 15px;
-      cursor: pointer;
-    }
+    .username { font-weight: 600; font-size: 15px; cursor: pointer; }
+    .username:hover { text-decoration: underline; }
 
-    .username:hover {
-      text-decoration: underline;
-    }
-
-    .timestamp {
-      font-size: 11px;
-      color: #949ba4;
-    }
+    .timestamp { font-size: 11px; color: #949ba4; }
+    .edited-tag { font-size: 10px; color: #949ba4; margin-left: 4px; }
 
     .message-content {
       font-size: 15px;
@@ -367,9 +372,94 @@
       display: block;
     }
 
-    .message-content img:hover {
-      transform: scale(1.02);
+    .message-content img:hover { transform: scale(1.02); }
+
+    .mention {
+      background: rgba(88, 101, 242, 0.3);
+      color: #dee0fc;
+      padding: 0 4px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
     }
+
+    .mention:hover { background: rgba(88, 101, 242, 0.5); }
+
+    /* Message Actions */
+    .message-actions {
+      position: absolute;
+      right: 8px;
+      top: -16px;
+      background: #1e1f22;
+      border-radius: 4px;
+      display: flex;
+      opacity: 0;
+      transition: opacity 0.1s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .message-action {
+      padding: 6px 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #b5bac1;
+      border: none;
+      background: none;
+      transition: background 0.1s;
+    }
+
+    .message-action:hover { background: #3a3c41; color: #fff; }
+    .message-action:first-child { border-radius: 4px 0 0 4px; }
+    .message-action:last-child { border-radius: 0 4px 4px 0; }
+
+    /* Reactions */
+    .reactions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .reaction {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: #3a3c41;
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.1s;
+    }
+
+    .reaction:hover { background: #4e5058; }
+    .reaction.active { background: rgba(88, 101, 242, 0.3); border-color: #5865f2; }
+    .reaction-count { font-size: 12px; color: #dbdee1; }
+
+    /* Reaction Picker */
+    .reaction-picker {
+      position: absolute;
+      background: #1e1f22;
+      border-radius: 8px;
+      padding: 8px;
+      display: none;
+      gap: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      z-index: 50;
+    }
+
+    .reaction-picker.active { display: flex; }
+
+    .reaction-option {
+      font-size: 20px;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.1s;
+    }
+
+    .reaction-option:hover { background: #3a3c41; }
 
     .reply-context {
       display: flex;
@@ -385,40 +475,14 @@
       cursor: pointer;
     }
 
-    .reply-context:hover {
-      background: rgba(0,0,0,0.2);
-    }
-
-    .reply-context .reply-author {
-      color: #00a8fc;
-      font-weight: 600;
-    }
+    .reply-context:hover { background: rgba(0,0,0,0.2); }
+    .reply-context .reply-author { color: #00a8fc; font-weight: 600; }
 
     .reply-context .reply-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       max-width: 300px;
-    }
-
-    .reply-btn {
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      background: #2b2d31;
-      border: none;
-      color: #b5bac1;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-      opacity: 0;
-      transition: opacity 0.1s, background 0.1s;
-    }
-
-    .reply-btn:hover {
-      background: #404249;
-      color: #fff;
     }
 
     .user-color-1 { color: #f47067; }
@@ -428,14 +492,36 @@
     .user-color-5 { color: #f69d50; }
     .user-color-6 { color: #fc8dc7; }
 
+    /* Typing Indicator */
     #typingIndicator {
       padding: 8px 16px;
       font-size: 13px;
       color: #949ba4;
-      height: 24px;
+      min-height: 28px;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: #949ba4;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
     }
 
     #replyBar {
@@ -453,21 +539,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    #replyBar.active {
-      display: flex;
-    }
+    #replyBar.active { display: flex; }
 
-    #replyBar .reply-preview {
-      flex: 1;
-      font-size: 13px;
-      color: #949ba4;
-    }
+    #replyBar .reply-preview { flex: 1; font-size: 13px; color: #949ba4; }
+    #replyBar .reply-preview strong { color: #00a8fc; }
 
-    #replyBar .reply-preview strong {
-      color: #00a8fc;
-    }
-
-    #replyBar .cancel-reply {
+    #replyBar .cancel-reply, #editBar .cancel-edit {
       background: none;
       border: none;
       color: #949ba4;
@@ -476,9 +553,21 @@
       padding: 4px;
     }
 
-    #replyBar .cancel-reply:hover {
-      color: #fff;
+    #replyBar .cancel-reply:hover, #editBar .cancel-edit:hover { color: #fff; }
+
+    /* Edit Bar */
+    #editBar {
+      display: none;
+      padding: 8px 16px;
+      background: #2b2d31;
+      border-top: 1px solid #1e1f22;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.15s ease-out;
     }
+
+    #editBar.active { display: flex; }
+    #editBar .edit-label { flex: 1; font-size: 13px; color: #5865f2; }
 
     #imagePreviewBar {
       display: none;
@@ -490,9 +579,7 @@
       animation: slideIn 0.15s ease-out;
     }
 
-    #imagePreviewBar.active {
-      display: flex;
-    }
+    #imagePreviewBar.active { display: flex; }
 
     #imagePreviewBar img {
       max-height: 60px;
@@ -500,11 +587,7 @@
       border-radius: 4px;
     }
 
-    #imagePreviewBar .preview-info {
-      flex: 1;
-      font-size: 13px;
-      color: #949ba4;
-    }
+    #imagePreviewBar .preview-info { flex: 1; font-size: 13px; color: #949ba4; }
 
     #imagePreviewBar .cancel-image {
       background: none;
@@ -515,13 +598,9 @@
       padding: 4px;
     }
 
-    #imagePreviewBar .cancel-image:hover {
-      color: #fff;
-    }
+    #imagePreviewBar .cancel-image:hover { color: #fff; }
 
-    .input-container {
-      padding: 0 16px 24px;
-    }
+    .input-container { padding: 0 16px 24px; position: relative; }
 
     .input-wrapper {
       background: #383a40;
@@ -531,9 +610,7 @@
       padding: 4px 12px;
     }
 
-    .input-wrapper:focus-within {
-      box-shadow: 0 0 0 2px #5865f2;
-    }
+    .input-wrapper:focus-within { box-shadow: 0 0 0 2px #5865f2; }
 
     .upload-btn {
       background: none;
@@ -549,15 +626,8 @@
       margin-right: 8px;
     }
 
-    .upload-btn:hover {
-      color: #fff;
-      background: #4e5058;
-    }
-
-    .upload-btn svg {
-      width: 20px;
-      height: 20px;
-    }
+    .upload-btn:hover { color: #fff; background: #4e5058; }
+    .upload-btn svg { width: 20px; height: 20px; }
 
     #messageInput {
       flex: 1;
@@ -569,16 +639,9 @@
       padding: 11px 0;
     }
 
-    #messageInput::placeholder {
-      color: #6d6f78;
-    }
+    #messageInput::placeholder { color: #6d6f78; }
 
-    .char-count {
-      font-size: 12px;
-      color: #6d6f78;
-      margin-right: 8px;
-    }
-
+    .char-count { font-size: 12px; color: #6d6f78; margin-right: 8px; }
     .char-count.warning { color: #f47067; }
 
     #sendBtn {
@@ -595,35 +658,59 @@
       transition: background 0.15s;
     }
 
-    #sendBtn:hover {
-      background: #4752c4;
+    #sendBtn:hover { background: #4752c4; }
+    #sendBtn:disabled { background: #4e5058; cursor: not-allowed; }
+    #sendBtn svg { width: 18px; height: 18px; }
+
+    /* Mention Suggestions */
+    .mention-suggestions {
+      position: absolute;
+      bottom: 100%;
+      left: 16px;
+      right: 16px;
+      background: #1e1f22;
+      border-radius: 8px;
+      padding: 8px 0;
+      display: none;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.4);
+      z-index: 50;
     }
 
-    #sendBtn:disabled {
-      background: #4e5058;
-      cursor: not-allowed;
+    .mention-suggestions.active { display: block; }
+
+    .mention-suggestion {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background 0.1s;
     }
 
-    #sendBtn svg {
-      width: 18px;
-      height: 18px;
+    .mention-suggestion:hover, .mention-suggestion.selected { background: #3a3c41; }
+
+    .mention-suggestion-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #5865f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      overflow: hidden;
     }
 
-    .welcome {
-      text-align: center;
-      padding: 40px 20px;
-      color: #949ba4;
-    }
+    .mention-suggestion-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .mention-suggestion-name { font-size: 14px; color: #f2f3f5; }
 
-    .welcome h2 {
-      color: #f2f3f5;
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    .welcome p {
-      font-size: 14px;
-    }
+    .welcome { text-align: center; padding: 40px 20px; color: #949ba4; }
+    .welcome h2 { color: #f2f3f5; font-size: 24px; margin-bottom: 8px; }
+    .welcome p { font-size: 14px; }
 
     #newMsgBtn {
       position: fixed;
@@ -661,25 +748,11 @@
       justify-content: center;
     }
 
-    #imageModal.active {
-      display: flex;
-    }
+    #imageModal.active { display: flex; }
+    #imageModal img { max-width: 90%; max-height: 90%; border-radius: 8px; }
 
-    #imageModal img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 8px;
-    }
-
-    .upload-progress {
-      font-size: 12px;
-      color: #949ba4;
-      margin-right: 8px;
-    }
-
-    #fileInput, #avatarInput {
-      display: none;
-    }
+    .upload-progress { font-size: 12px; color: #949ba4; margin-right: 8px; }
+    #fileInput, #avatarInput { display: none; }
 
     /* Profile Modal */
     .modal-overlay {
@@ -695,9 +768,7 @@
       justify-content: center;
     }
 
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal {
       background: #2b2d31;
@@ -708,11 +779,7 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
 
-    .modal h2 {
-      color: #f2f3f5;
-      margin-bottom: 20px;
-      font-size: 20px;
-    }
+    .modal h2 { color: #f2f3f5; margin-bottom: 20px; font-size: 20px; }
 
     .modal .avatar-upload {
       display: flex;
@@ -738,20 +805,9 @@
       transition: opacity 0.15s;
     }
 
-    .modal .avatar-preview:hover {
-      opacity: 0.8;
-    }
-
-    .modal .avatar-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal .avatar-hint {
-      font-size: 12px;
-      color: #949ba4;
-    }
+    .modal .avatar-preview:hover { opacity: 0.8; }
+    .modal .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .modal .avatar-hint { font-size: 12px; color: #949ba4; }
 
     .modal button {
       width: 100%;
@@ -766,18 +822,21 @@
       margin-top: 12px;
     }
 
-    .modal button:hover {
-      background: #4752c4;
+    .modal button:hover { background: #4752c4; }
+    .modal button.cancel { background: transparent; color: #949ba4; }
+    .modal button.cancel:hover { color: #f2f3f5; }
+
+    /* Delete Confirmation */
+    .confirm-modal .modal {
+      max-width: 320px;
+      text-align: center;
     }
 
-    .modal button.cancel {
-      background: transparent;
-      color: #949ba4;
-    }
-
-    .modal button.cancel:hover {
-      color: #f2f3f5;
-    }
+    .confirm-modal p { color: #949ba4; margin-bottom: 20px; font-size: 14px; }
+    .confirm-modal .btn-row { display: flex; gap: 12px; }
+    .confirm-modal .btn-row button { flex: 1; margin-top: 0; }
+    .confirm-modal .btn-danger { background: #ed4245; }
+    .confirm-modal .btn-danger:hover { background: #c93b3e; }
   </style>
 </head>
 <body>
@@ -786,9 +845,7 @@
     <div class="auth-box">
       <h1>⛵ RYB Chat</h1>
       <p class="subtitle">Row Your Boat Team Chat</p>
-      
       <div id="authError" class="error" style="display: none;"></div>
-      
       <div id="loginForm">
         <input type="text" id="loginUsername" placeholder="Username" autocomplete="off">
         <input type="password" id="loginPassword" placeholder="Password">
@@ -796,7 +853,6 @@
         <div class="divider">or</div>
         <button class="secondary" onclick="showRegister()">Create Account</button>
       </div>
-      
       <div id="registerForm" style="display: none;">
         <input type="text" id="registerUsername" placeholder="Username" autocomplete="off">
         <input type="password" id="registerPassword" placeholder="Password">
@@ -815,7 +871,11 @@
       <h1>RYB Chat</h1>
       <span class="connection-status" id="connectionStatus">Live</span>
       <div class="header-right">
-        <span class="online-count" id="onlineCount"></span>
+        <div class="online-users" onclick="toggleOnlinePanel()" style="cursor:pointer;">
+          <span class="online-dot"></span>
+          <span id="onlineCountNum">0</span> online
+        </div>
+        <span class="online-count" id="messageCount"></span>
         <div class="user-menu" onclick="toggleDropdown()">
           <div class="user-menu-avatar" id="userMenuAvatar"></div>
           <span class="user-menu-name" id="userMenuName"></span>
@@ -828,6 +888,10 @@
         <div class="dropdown-item danger" onclick="logout()">
           <span>🚪</span> Log Out
         </div>
+      </div>
+      <div class="online-panel" id="onlinePanel">
+        <h3>Online</h3>
+        <div id="onlineUsersList"></div>
       </div>
     </div>
 
@@ -843,10 +907,13 @@
     <button id="newMsgBtn" onclick="scrollToBottom()">New messages ↓</button>
 
     <div id="replyBar">
-      <div class="reply-preview">
-        Replying to <strong id="replyToUser"></strong>
-      </div>
+      <div class="reply-preview">Replying to <strong id="replyToUser"></strong></div>
       <button class="cancel-reply" onclick="cancelReply()">×</button>
+    </div>
+
+    <div id="editBar">
+      <div class="edit-label">✏️ Editing message</div>
+      <button class="cancel-edit" onclick="cancelEdit()">×</button>
     </div>
 
     <div id="imagePreviewBar">
@@ -856,6 +923,7 @@
     </div>
 
     <div class="input-container">
+      <div class="mention-suggestions" id="mentionSuggestions"></div>
       <div class="input-wrapper">
         <input type="file" id="fileInput" accept="image/*">
         <button class="upload-btn" onclick="document.getElementById('fileInput').click()" title="Upload image">
@@ -896,23 +964,43 @@
     </div>
   </div>
 
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay confirm-modal" id="deleteModal">
+    <div class="modal">
+      <h2>Delete Message</h2>
+      <p>Are you sure you want to delete this message?</p>
+      <div class="btn-row">
+        <button class="cancel" onclick="closeDeleteModal()">Cancel</button>
+        <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Supabase setup
     const SUPABASE_URL = 'https://sfilmsuauhmhmlatqoqm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmaWxtc3VhdWhtaG1sYXRxb3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwODM4MDksImV4cCI6MjA3OTY1OTgwOX0.H50budPYVnFIOfW63M9A9RjX4cUPlVTDh3qHkOMCCI0';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
     
     let currentUser = null;
     let usersCache = {};
     let allMessages = [];
+    let reactionsCache = {};
+    let onlineUsers = {};
     let isAtBottom = true;
     let replyingTo = null;
+    let editingMessage = null;
     let pendingImage = null;
     let pendingAvatar = null;
     let hasUnreadMessages = false;
+    let typingTimeout = null;
+    let deleteMessageId = null;
+    let mentionQuery = '';
+    let mentionStartPos = -1;
+    let selectedMentionIndex = 0;
 
-    // Favicon management
+    // Favicon
     const normalFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text></svg>";
     const notificationFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text><circle cx='80' cy='20' r='18' fill='%23ed4245'/></svg>";
 
@@ -927,11 +1015,9 @@
       setFavicon(false);
       document.title = 'RYB Chat';
     });
-    window.addEventListener('blur', () => {
-      windowFocused = false;
-    });
+    window.addEventListener('blur', () => { windowFocused = false; });
 
-    // Simple hash function for passwords (not cryptographically secure, but fine for this use case)
+    // Password hashing
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password + 'ryb-salt-2024');
@@ -940,23 +1026,19 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Auth functions
+    // Auth
     function showError(message) {
-      const errorEl = document.getElementById('authError');
-      errorEl.textContent = message;
-      errorEl.style.display = 'block';
+      const el = document.getElementById('authError');
+      el.textContent = message;
+      el.style.display = 'block';
     }
 
-    function hideError() {
-      document.getElementById('authError').style.display = 'none';
-    }
-
+    function hideError() { document.getElementById('authError').style.display = 'none'; }
     function showRegister() {
       hideError();
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('registerForm').style.display = 'block';
     }
-
     function showLogin() {
       hideError();
       document.getElementById('registerForm').style.display = 'none';
@@ -967,34 +1049,17 @@
       hideError();
       const username = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value;
-      
-      if (!username || !password) {
-        showError('Please enter username and password');
-        return;
-      }
-      
+      if (!username || !password) { showError('Please enter username and password'); return; }
       try {
         const passwordHash = await hashPassword(password);
-        
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('username', username)
-          .eq('password_hash', passwordHash)
-          .single();
-        
-        if (error || !data) {
-          showError('Invalid username or password');
-          return;
-        }
-        
+        const { data, error } = await supabase.from('users').select('*').eq('username', username).eq('password_hash', passwordHash).single();
+        if (error || !data) { showError('Invalid username or password'); return; }
         currentUser = data;
         localStorage.setItem('ryb-user', JSON.stringify(data));
         showChat();
-        
       } catch (error) {
         console.error('Login error:', error);
-        showError('Login failed. Please try again.');
+        showError('Login failed');
       }
     }
 
@@ -1003,61 +1068,27 @@
       const username = document.getElementById('registerUsername').value.trim();
       const password = document.getElementById('registerPassword').value;
       const confirm = document.getElementById('registerConfirm').value;
-      
-      if (!username || !password) {
-        showError('Please enter username and password');
-        return;
-      }
-      
-      if (username.length < 3) {
-        showError('Username must be at least 3 characters');
-        return;
-      }
-      
-      if (password.length < 4) {
-        showError('Password must be at least 4 characters');
-        return;
-      }
-      
-      if (password !== confirm) {
-        showError('Passwords do not match');
-        return;
-      }
-      
+      if (!username || !password) { showError('Please enter username and password'); return; }
+      if (username.length < 3) { showError('Username must be at least 3 characters'); return; }
+      if (password.length < 4) { showError('Password must be at least 4 characters'); return; }
+      if (password !== confirm) { showError('Passwords do not match'); return; }
       try {
-        // Check if username exists
-        const { data: existing } = await supabase
-          .from('users')
-          .select('id')
-          .eq('username', username)
-          .single();
-        
-        if (existing) {
-          showError('Username already taken');
-          return;
-        }
-        
+        const { data: existing } = await supabase.from('users').select('id').eq('username', username).single();
+        if (existing) { showError('Username already taken'); return; }
         const passwordHash = await hashPassword(password);
-        
-        const { data, error } = await supabase
-          .from('users')
-          .insert([{ username, password_hash: passwordHash }])
-          .select()
-          .single();
-        
+        const { data, error } = await supabase.from('users').insert([{ username, password_hash: passwordHash }]).select().single();
         if (error) throw error;
-        
         currentUser = data;
         localStorage.setItem('ryb-user', JSON.stringify(data));
         showChat();
-        
       } catch (error) {
         console.error('Register error:', error);
-        showError('Registration failed. Please try again.');
+        showError('Registration failed');
       }
     }
 
     function logout() {
+      updatePresence(false, false);
       currentUser = null;
       localStorage.removeItem('ryb-user');
       document.getElementById('authScreen').style.display = 'flex';
@@ -1065,49 +1096,46 @@
       document.getElementById('dropdown').classList.remove('active');
     }
 
-    function showChat() {
+    async function showChat() {
       document.getElementById('authScreen').style.display = 'none';
       document.getElementById('chatScreen').classList.add('active');
       updateUserMenu();
-      loadMessages();
-      subscribeToMessages();
+      await loadUsers();
+      await loadMessages();
+      await loadReactions();
+      subscribeToAll();
+      updatePresence(true, false);
+      setInterval(() => updatePresence(true, false), 30000);
     }
 
     function updateUserMenu() {
       const avatarEl = document.getElementById('userMenuAvatar');
       const nameEl = document.getElementById('userMenuName');
-      
       nameEl.textContent = currentUser.username;
-      
-      if (currentUser.avatar_url) {
-        avatarEl.innerHTML = `<img src="${currentUser.avatar_url}">`;
-      } else {
-        avatarEl.textContent = currentUser.username.charAt(0).toUpperCase();
-      }
+      avatarEl.innerHTML = currentUser.avatar_url ? `<img src="${currentUser.avatar_url}">` : currentUser.username.charAt(0).toUpperCase();
     }
 
-    function toggleDropdown() {
-      document.getElementById('dropdown').classList.toggle('active');
-    }
+    function toggleDropdown() { document.getElementById('dropdown').classList.toggle('active'); }
+    function toggleOnlinePanel() { document.getElementById('onlinePanel').classList.toggle('active'); }
 
-    // Close dropdown when clicking elsewhere
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.user-menu') && !e.target.closest('.dropdown')) {
         document.getElementById('dropdown').classList.remove('active');
       }
+      if (!e.target.closest('.online-users') && !e.target.closest('.online-panel')) {
+        document.getElementById('onlinePanel').classList.remove('active');
+      }
+      if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-action')) {
+        document.querySelectorAll('.reaction-picker').forEach(p => p.classList.remove('active'));
+      }
     });
 
-    // Profile functions
+    // Profile
     function openProfile() {
       document.getElementById('dropdown').classList.remove('active');
       document.getElementById('profileModal').classList.add('active');
-      
       const preview = document.getElementById('profileAvatarPreview');
-      if (currentUser.avatar_url) {
-        preview.innerHTML = `<img src="${currentUser.avatar_url}">`;
-      } else {
-        preview.textContent = currentUser.username.charAt(0).toUpperCase();
-      }
+      preview.innerHTML = currentUser.avatar_url ? `<img src="${currentUser.avatar_url}">` : currentUser.username.charAt(0).toUpperCase();
     }
 
     function closeProfile() {
@@ -1118,12 +1146,7 @@
     document.getElementById('avatarInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      
-      if (file.size > 2 * 1024 * 1024) {
-        alert('Avatar too large. Max 2MB.');
-        return;
-      }
-      
+      if (file.size > 2 * 1024 * 1024) { alert('Avatar too large. Max 2MB.'); return; }
       const reader = new FileReader();
       reader.onload = (e) => {
         document.getElementById('profileAvatarPreview').innerHTML = `<img src="${e.target.result}">`;
@@ -1133,73 +1156,101 @@
     });
 
     async function saveProfile() {
-      if (!pendingAvatar) {
-        closeProfile();
-        return;
-      }
-      
+      if (!pendingAvatar) { closeProfile(); return; }
       try {
-        // Upload avatar
         const fileExt = pendingAvatar.name.split('.').pop();
         const fileName = `avatar-${currentUser.id}-${Date.now()}.${fileExt}`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from('images')
-          .upload(fileName, pendingAvatar, { cacheControl: '3600', upsert: false });
-        
+        const { error: uploadError } = await supabase.storage.from('images').upload(fileName, pendingAvatar, { cacheControl: '3600', upsert: false });
         if (uploadError) throw uploadError;
-        
         const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
-        
-        // Update user
-        const { error: updateError } = await supabase
-          .from('users')
-          .update({ avatar_url: urlData.publicUrl })
-          .eq('id', currentUser.id);
-        
+        const { error: updateError } = await supabase.from('users').update({ avatar_url: urlData.publicUrl }).eq('id', currentUser.id);
         if (updateError) throw updateError;
-        
         currentUser.avatar_url = urlData.publicUrl;
         localStorage.setItem('ryb-user', JSON.stringify(currentUser));
         usersCache[currentUser.id] = currentUser;
         updateUserMenu();
         closeProfile();
-        
       } catch (error) {
         console.error('Save profile error:', error);
         alert('Failed to save profile');
       }
     }
 
-    // Chat functions
+    // Presence
+    async function updatePresence(isOnline, isTyping) {
+      if (!currentUser) return;
+      try {
+        await supabase.from('presence').upsert({
+          user_id: currentUser.id,
+          username: currentUser.username,
+          is_online: isOnline,
+          is_typing: isTyping,
+          last_seen: new Date().toISOString()
+        });
+      } catch (e) { console.error('Presence error:', e); }
+    }
+
+    async function loadOnlineUsers() {
+      const { data } = await supabase.from('presence').select('*').eq('is_online', true);
+      onlineUsers = {};
+      data?.forEach(p => { onlineUsers[p.user_id] = p; });
+      renderOnlineUsers();
+    }
+
+    function renderOnlineUsers() {
+      const list = document.getElementById('onlineUsersList');
+      const users = Object.values(onlineUsers);
+      document.getElementById('onlineCountNum').textContent = users.length;
+      list.innerHTML = users.map(p => {
+        const user = usersCache[p.user_id] || { username: p.username, avatar_url: null };
+        return `
+          <div class="online-user">
+            <div class="online-user-avatar">
+              ${user.avatar_url ? `<img src="${user.avatar_url}">` : user.username.charAt(0).toUpperCase()}
+              <div class="status-dot"></div>
+            </div>
+            <span class="online-user-name">${escapeHtml(user.username)}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      const typingUsers = Object.values(onlineUsers).filter(p => p.is_typing && p.user_id !== currentUser.id);
+      if (typingUsers.length === 0) {
+        indicator.innerHTML = '';
+        return;
+      }
+      const names = typingUsers.map(p => p.username);
+      let text = '';
+      if (names.length === 1) text = `<strong>${escapeHtml(names[0])}</strong> is typing`;
+      else if (names.length === 2) text = `<strong>${escapeHtml(names[0])}</strong> and <strong>${escapeHtml(names[1])}</strong> are typing`;
+      else text = `<strong>${names.length} people</strong> are typing`;
+      indicator.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div><span>${text}...</span>`;
+    }
+
+    // Utilities
     function getUserColor(username) {
       let hash = 0;
-      for (let i = 0; i < username.length; i++) {
-        hash = username.charCodeAt(i) + ((hash << 5) - hash);
-      }
+      for (let i = 0; i < username.length; i++) hash = username.charCodeAt(i) + ((hash << 5) - hash);
       return 'user-color-' + (Math.abs(hash) % 6 + 1);
     }
 
     function formatTime(date) {
       const now = new Date();
       const msgDate = new Date(date);
-      const isToday = now.toDateString() === msgDate.toDateString();
-      
       const time = msgDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-      
-      if (isToday) return 'Today at ' + time;
-      
+      if (now.toDateString() === msgDate.toDateString()) return 'Today at ' + time;
       const yesterday = new Date(now);
       yesterday.setDate(yesterday.getDate() - 1);
       if (yesterday.toDateString() === msgDate.toDateString()) return 'Yesterday at ' + time;
-      
       return msgDate.toLocaleDateString() + ' ' + time;
     }
 
     function checkScrollPosition() {
       const messages = document.getElementById('messages');
-      const threshold = 100;
-      isAtBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight < threshold;
+      isAtBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 100;
       if (isAtBottom) document.getElementById('newMsgBtn').style.display = 'none';
     }
 
@@ -1209,12 +1260,28 @@
       document.getElementById('newMsgBtn').style.display = 'none';
     }
 
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     function processMessageContent(text) {
-      const escaped = escapeHtml(text);
-      const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
-      return escaped.replace(imageRegex, (url) => {
-        return `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`;
+      let escaped = escapeHtml(text);
+      // Mentions
+      escaped = escaped.replace(/@(\w+)/g, (match, username) => {
+        const isMentioningMe = username.toLowerCase() === currentUser.username.toLowerCase();
+        return `<span class="mention" data-user="${username}">${match}</span>`;
       });
+      // Images
+      const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
+      escaped = escaped.replace(imageRegex, (url) => `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`);
+      return escaped;
+    }
+
+    function isMentioned(content) {
+      const regex = new RegExp(`@${currentUser.username}\\b`, 'i');
+      return regex.test(content);
     }
 
     function openImageModal(url) {
@@ -1223,11 +1290,11 @@
       document.getElementById('imageModal').classList.add('active');
     }
 
-    function closeImageModal() {
-      document.getElementById('imageModal').classList.remove('active');
-    }
+    function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); }
 
+    // Reply & Edit
     function setReply(messageId, username, text) {
+      cancelEdit();
       replyingTo = { id: messageId, username, text };
       document.getElementById('replyToUser').textContent = username;
       document.getElementById('replyBar').classList.add('active');
@@ -1239,15 +1306,123 @@
       document.getElementById('replyBar').classList.remove('active');
     }
 
-    document.getElementById('fileInput').addEventListener('change', async (e) => {
+    function startEdit(messageId) {
+      const msg = allMessages.find(m => m.id === messageId);
+      if (!msg || msg.user_id !== currentUser.id) return;
+      cancelReply();
+      editingMessage = msg;
+      document.getElementById('messageInput').value = msg.content;
+      document.getElementById('editBar').classList.add('active');
+      document.getElementById('messageInput').focus();
+      document.getElementById(`msg-${messageId}`)?.classList.add('editing');
+    }
+
+    function cancelEdit() {
+      if (editingMessage) {
+        document.getElementById(`msg-${editingMessage.id}`)?.classList.remove('editing');
+      }
+      editingMessage = null;
+      document.getElementById('messageInput').value = '';
+      document.getElementById('editBar').classList.remove('active');
+    }
+
+    // Delete
+    function promptDelete(messageId) {
+      deleteMessageId = messageId;
+      document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      deleteMessageId = null;
+      document.getElementById('deleteModal').classList.remove('active');
+    }
+
+    async function confirmDelete() {
+      if (!deleteMessageId) return;
+      try {
+        await supabase.from('messages').delete().eq('id', deleteMessageId);
+        document.getElementById(`msg-${deleteMessageId}`)?.remove();
+        allMessages = allMessages.filter(m => m.id !== deleteMessageId);
+        closeDeleteModal();
+      } catch (e) {
+        console.error('Delete error:', e);
+        alert('Failed to delete message');
+      }
+    }
+
+    // Reactions
+    async function loadReactions() {
+      const { data } = await supabase.from('reactions').select('*');
+      reactionsCache = {};
+      data?.forEach(r => {
+        if (!reactionsCache[r.message_id]) reactionsCache[r.message_id] = [];
+        reactionsCache[r.message_id].push(r);
+      });
+    }
+
+    function getReactionsForMessage(messageId) {
+      return reactionsCache[messageId] || [];
+    }
+
+    function renderReactions(messageId) {
+      const reactions = getReactionsForMessage(messageId);
+      if (reactions.length === 0) return '';
+      const grouped = {};
+      reactions.forEach(r => {
+        if (!grouped[r.emoji]) grouped[r.emoji] = [];
+        grouped[r.emoji].push(r.user_id);
+      });
+      return `<div class="reactions">${Object.entries(grouped).map(([emoji, userIds]) => {
+        const isActive = userIds.includes(currentUser.id);
+        return `<div class="reaction ${isActive ? 'active' : ''}" onclick="toggleReaction(${messageId}, '${emoji}')">
+          <span>${emoji}</span>
+          <span class="reaction-count">${userIds.length}</span>
+        </div>`;
+      }).join('')}</div>`;
+    }
+
+    function showReactionPicker(messageId, btn) {
+      document.querySelectorAll('.reaction-picker').forEach(p => p.remove());
+      const picker = document.createElement('div');
+      picker.className = 'reaction-picker active';
+      picker.innerHTML = REACTIONS.map(e => `<span class="reaction-option" onclick="toggleReaction(${messageId}, '${e}')">${e}</span>`).join('');
+      btn.parentElement.appendChild(picker);
+    }
+
+    async function toggleReaction(messageId, emoji) {
+      document.querySelectorAll('.reaction-picker').forEach(p => p.classList.remove('active'));
+      const existing = getReactionsForMessage(messageId).find(r => r.emoji === emoji && r.user_id === currentUser.id);
+      try {
+        if (existing) {
+          await supabase.from('reactions').delete().eq('id', existing.id);
+          reactionsCache[messageId] = reactionsCache[messageId].filter(r => r.id !== existing.id);
+        } else {
+          const { data } = await supabase.from('reactions').insert([{ message_id: messageId, user_id: currentUser.id, emoji }]).select().single();
+          if (!reactionsCache[messageId]) reactionsCache[messageId] = [];
+          reactionsCache[messageId].push(data);
+        }
+        updateMessageReactions(messageId);
+      } catch (e) { console.error('Reaction error:', e); }
+    }
+
+    function updateMessageReactions(messageId) {
+      const msgEl = document.getElementById(`msg-${messageId}`);
+      if (!msgEl) return;
+      let reactionsEl = msgEl.querySelector('.reactions');
+      const newReactionsHtml = renderReactions(messageId);
+      if (reactionsEl) {
+        if (newReactionsHtml) reactionsEl.outerHTML = newReactionsHtml;
+        else reactionsEl.remove();
+      } else if (newReactionsHtml) {
+        msgEl.querySelector('.message-content').insertAdjacentHTML('afterend', newReactionsHtml);
+      }
+    }
+
+    // Image upload
+    document.getElementById('fileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image too large. Max 5MB.');
-        return;
-      }
-      
+      if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5MB.'); return; }
       const reader = new FileReader();
       reader.onload = (e) => {
         document.getElementById('imagePreview').src = e.target.result;
@@ -1266,34 +1441,65 @@
 
     async function uploadImage(file) {
       document.getElementById('uploadProgress').textContent = 'Uploading...';
-      
       try {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        
-        const { data, error } = await supabase.storage
-          .from('images')
-          .upload(fileName, file, { cacheControl: '3600', upsert: false });
-        
+        const { error } = await supabase.storage.from('images').upload(fileName, file, { cacheControl: '3600', upsert: false });
         if (error) throw error;
-        
         const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
-        
         document.getElementById('uploadProgress').textContent = '';
         return urlData.publicUrl;
-        
       } catch (error) {
         console.error('Upload error:', error);
         document.getElementById('uploadProgress').textContent = 'Upload failed';
-        setTimeout(() => {
-          document.getElementById('uploadProgress').textContent = '';
-        }, 3000);
+        setTimeout(() => { document.getElementById('uploadProgress').textContent = ''; }, 3000);
         return null;
       }
     }
 
-    function findMessageById(id) {
-      return allMessages.find(m => m.id === id);
+    // Mentions
+    function showMentionSuggestions(query) {
+      const container = document.getElementById('mentionSuggestions');
+      const users = Object.values(usersCache).filter(u => 
+        u.username.toLowerCase().includes(query.toLowerCase()) && u.id !== currentUser.id
+      ).slice(0, 5);
+      
+      if (users.length === 0) {
+        container.classList.remove('active');
+        return;
+      }
+      
+      selectedMentionIndex = 0;
+      container.innerHTML = users.map((u, i) => `
+        <div class="mention-suggestion ${i === 0 ? 'selected' : ''}" data-username="${u.username}" onclick="insertMention('${u.username}')">
+          <div class="mention-suggestion-avatar">
+            ${u.avatar_url ? `<img src="${u.avatar_url}">` : u.username.charAt(0).toUpperCase()}
+          </div>
+          <span class="mention-suggestion-name">${escapeHtml(u.username)}</span>
+        </div>
+      `).join('');
+      container.classList.add('active');
+    }
+
+    function hideMentionSuggestions() {
+      document.getElementById('mentionSuggestions').classList.remove('active');
+      mentionStartPos = -1;
+      mentionQuery = '';
+    }
+
+    function insertMention(username) {
+      const input = document.getElementById('messageInput');
+      const before = input.value.substring(0, mentionStartPos);
+      const after = input.value.substring(input.selectionStart);
+      input.value = before + '@' + username + ' ' + after;
+      input.focus();
+      hideMentionSuggestions();
+    }
+
+    // Messages
+    async function loadUsers() {
+      const { data } = await supabase.from('users').select('*');
+      data?.forEach(u => usersCache[u.id] = u);
     }
 
     function getUser(userId) {
@@ -1301,40 +1507,38 @@
     }
 
     function renderAvatar(user) {
-      if (user.avatar_url) {
-        return `<img src="${user.avatar_url}">`;
-      }
-      return user.username ? user.username.charAt(0).toUpperCase() : '?';
+      return user.avatar_url ? `<img src="${user.avatar_url}">` : (user.username ? user.username.charAt(0).toUpperCase() : '?');
+    }
+
+    function findMessageById(id) {
+      return allMessages.find(m => m.id === id);
     }
 
     function addMessageToUI(message, isPending = false) {
       const messagesDiv = document.getElementById('messages');
-      
-      const welcome = messagesDiv.querySelector('.welcome');
-      if (welcome) welcome.remove();
-      
+      messagesDiv.querySelector('.welcome')?.remove();
       if (!isPending && document.getElementById(`msg-${message.id}`)) return;
-      
+
       const user = isPending ? currentUser : getUser(message.user_id);
       const username = message.username || user.username;
-      
+      const mentioned = isMentioned(message.content);
+      const isOwn = message.user_id === currentUser.id;
+
       let replyHtml = '';
       if (message.reply_to) {
         const original = findMessageById(message.reply_to);
         if (original) {
           const origUser = getUser(original.user_id);
           const origText = original.content.length > 50 ? original.content.substring(0, 50) + '...' : original.content;
-          replyHtml = `
-            <div class="reply-context" onclick="scrollToMessage(${message.reply_to})">
-              <span class="reply-author">${escapeHtml(original.username || origUser.username)}</span>
-              <span class="reply-text">${escapeHtml(origText)}</span>
-            </div>
-          `;
+          replyHtml = `<div class="reply-context" onclick="scrollToMessage(${message.reply_to})">
+            <span class="reply-author">${escapeHtml(original.username || origUser.username)}</span>
+            <span class="reply-text">${escapeHtml(origText)}</span>
+          </div>`;
         }
       }
-      
+
       const msgEl = document.createElement('div');
-      msgEl.className = isPending ? 'message pending' : 'message';
+      msgEl.className = `message ${isPending ? 'pending' : ''} ${mentioned ? 'mentioned' : ''}`;
       msgEl.id = isPending ? `pending-${message.id}` : `msg-${message.id}`;
       msgEl.innerHTML = `
         <div class="message-avatar">${renderAvatar(user)}</div>
@@ -1343,102 +1547,109 @@
           <div class="message-header">
             <span class="username ${getUserColor(username)}" onclick="setReply(${message.id}, '${escapeHtml(username)}', '${escapeHtml(message.content.substring(0, 50))}')">${escapeHtml(username)}</span>
             <span class="timestamp">${isPending ? 'Sending...' : formatTime(message.created_at)}</span>
+            ${message.edited_at ? '<span class="edited-tag">(edited)</span>' : ''}
           </div>
           <div class="message-content">${processMessageContent(message.content)}</div>
+          ${!isPending ? renderReactions(message.id) : ''}
         </div>
-        ${!isPending ? `<button class="reply-btn" onclick="setReply(${message.id}, '${escapeHtml(username)}', '${escapeHtml(message.content.substring(0, 50))}')">Reply</button>` : ''}
+        ${!isPending ? `
+          <div class="message-actions">
+            <button class="message-action" onclick="showReactionPicker(${message.id}, this)" title="React">😀</button>
+            <button class="message-action" onclick="setReply(${message.id}, '${escapeHtml(username)}', '${escapeHtml(message.content.substring(0, 50))}')" title="Reply">↩️</button>
+            ${isOwn ? `<button class="message-action" onclick="startEdit(${message.id})" title="Edit">✏️</button>` : ''}
+            ${isOwn ? `<button class="message-action" onclick="promptDelete(${message.id})" title="Delete">🗑️</button>` : ''}
+          </div>
+        ` : ''}
       `;
       messagesDiv.appendChild(msgEl);
-      
-      if (isAtBottom) {
-        scrollToBottom();
-      } else {
-        document.getElementById('newMsgBtn').style.display = 'block';
+
+      if (isAtBottom) scrollToBottom();
+      else document.getElementById('newMsgBtn').style.display = 'block';
+    }
+
+    function updateMessageInUI(message) {
+      const msgEl = document.getElementById(`msg-${message.id}`);
+      if (!msgEl) return;
+      const contentEl = msgEl.querySelector('.message-content');
+      const headerEl = msgEl.querySelector('.message-header');
+      contentEl.innerHTML = processMessageContent(message.content);
+      if (message.edited_at && !headerEl.querySelector('.edited-tag')) {
+        headerEl.insertAdjacentHTML('beforeend', '<span class="edited-tag">(edited)</span>');
       }
     }
 
     async function loadMessages() {
       try {
-        // Load users first
-        const { data: users } = await supabase.from('users').select('*');
-        users?.forEach(u => usersCache[u.id] = u);
-        
-        // Load messages
-        const { data, error } = await supabase
-          .from('messages')
-          .select('*')
-          .order('created_at', { ascending: true });
-        
+        const { data, error } = await supabase.from('messages').select('*').order('created_at', { ascending: true });
         if (error) throw error;
-        
         allMessages = data || [];
-        
         const messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML = '';
-        
         if (allMessages.length === 0) {
-          messagesDiv.innerHTML = `
-            <div class="welcome">
-              <h2>Welcome to RYB Chat</h2>
-              <p>This is the start of your conversation.</p>
-            </div>
-          `;
+          messagesDiv.innerHTML = '<div class="welcome"><h2>Welcome to RYB Chat</h2><p>This is the start of your conversation.</p></div>';
         } else {
           allMessages.forEach(msg => addMessageToUI(msg));
         }
-        
-        document.getElementById('onlineCount').textContent = `${allMessages.length} messages`;
+        document.getElementById('messageCount').textContent = `${allMessages.length} msgs`;
         scrollToBottom();
-        
-      } catch (error) {
-        console.error('Error loading messages:', error);
-      }
+        await loadOnlineUsers();
+      } catch (error) { console.error('Error loading messages:', error); }
     }
 
-    function subscribeToMessages() {
-      supabase
-        .channel('messages-channel')
-        .on('postgres_changes', 
-          { event: 'INSERT', schema: 'public', table: 'messages' },
-          (payload) => {
-            const newMessage = payload.new;
-            
-            if (allMessages.find(m => m.id === newMessage.id)) return;
-            
-            allMessages.push(newMessage);
-            
-            // Remove pending version
-            const pendingEl = document.querySelector(`[id^="pending-"]`);
-            if (pendingEl) pendingEl.remove();
-            
-            addMessageToUI(newMessage);
-            document.getElementById('onlineCount').textContent = `${allMessages.length} messages`;
-            
-            // Notification
-            if (!windowFocused && newMessage.user_id !== currentUser.id) {
-              hasUnreadMessages = true;
+    function subscribeToAll() {
+      supabase.channel('all-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const msg = payload.new;
+            if (allMessages.find(m => m.id === msg.id)) return;
+            allMessages.push(msg);
+            document.querySelector(`[id^="pending-"]`)?.remove();
+            addMessageToUI(msg);
+            document.getElementById('messageCount').textContent = `${allMessages.length} msgs`;
+            if (!windowFocused && msg.user_id !== currentUser.id) {
               setFavicon(true);
               document.title = '● RYB Chat';
             }
+          } else if (payload.eventType === 'UPDATE') {
+            const msg = payload.new;
+            const idx = allMessages.findIndex(m => m.id === msg.id);
+            if (idx >= 0) allMessages[idx] = msg;
+            updateMessageInUI(msg);
+          } else if (payload.eventType === 'DELETE') {
+            const id = payload.old.id;
+            document.getElementById(`msg-${id}`)?.remove();
+            allMessages = allMessages.filter(m => m.id !== id);
           }
-        )
-        .on('postgres_changes',
-          { event: '*', schema: 'public', table: 'users' },
-          (payload) => {
-            if (payload.new) {
-              usersCache[payload.new.id] = payload.new;
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'presence' }, (payload) => {
+          if (payload.new) onlineUsers[payload.new.user_id] = payload.new;
+          if (payload.old && !payload.new) delete onlineUsers[payload.old.user_id];
+          renderOnlineUsers();
+          renderTypingIndicator();
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'reactions' }, (payload) => {
+          if (payload.eventType === 'INSERT') {
+            const r = payload.new;
+            if (!reactionsCache[r.message_id]) reactionsCache[r.message_id] = [];
+            if (!reactionsCache[r.message_id].find(x => x.id === r.id)) {
+              reactionsCache[r.message_id].push(r);
             }
+            updateMessageReactions(r.message_id);
+          } else if (payload.eventType === 'DELETE') {
+            const r = payload.old;
+            if (reactionsCache[r.message_id]) {
+              reactionsCache[r.message_id] = reactionsCache[r.message_id].filter(x => x.id !== r.id);
+            }
+            updateMessageReactions(r.message_id);
           }
-        )
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, (payload) => {
+          if (payload.new) usersCache[payload.new.id] = payload.new;
+        })
         .subscribe((status) => {
-          const statusEl = document.getElementById('connectionStatus');
-          if (status === 'SUBSCRIBED') {
-            statusEl.textContent = 'Live';
-            statusEl.classList.remove('disconnected');
-          } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-            statusEl.textContent = 'Reconnecting...';
-            statusEl.classList.add('disconnected');
-          }
+          const el = document.getElementById('connectionStatus');
+          if (status === 'SUBSCRIBED') { el.textContent = 'Live'; el.classList.remove('disconnected'); }
+          else { el.textContent = 'Reconnecting...'; el.classList.add('disconnected'); }
         });
     }
 
@@ -1453,21 +1664,28 @@
 
     async function sendMessage() {
       let content = document.getElementById('messageInput').value.trim();
-      
+
+      // Handle edit
+      if (editingMessage) {
+        if (!content) { cancelEdit(); return; }
+        try {
+          await supabase.from('messages').update({ content, edited_at: new Date().toISOString() }).eq('id', editingMessage.id);
+          cancelEdit();
+        } catch (e) { console.error('Edit error:', e); alert('Failed to edit'); }
+        return;
+      }
+
+      // Handle image
       if (pendingImage) {
         const imageUrl = await uploadImage(pendingImage);
-        if (imageUrl) {
-          content = content ? `${content} ${imageUrl}` : imageUrl;
-        } else {
-          return;
-        }
+        if (imageUrl) content = content ? `${content} ${imageUrl}` : imageUrl;
+        else return;
         cancelImage();
       }
-      
+
       if (!content) return;
-      
+
       document.getElementById('sendBtn').disabled = true;
-      
       const tempId = Date.now();
       const pendingMessage = {
         id: tempId,
@@ -1478,75 +1696,102 @@
         created_at: new Date().toISOString()
       };
       addMessageToUI(pendingMessage, true);
-      
       document.getElementById('messageInput').value = '';
       document.getElementById('charCount').textContent = '';
       const replyToId = replyingTo?.id || null;
       cancelReply();
-      
+      updatePresence(true, false);
+
       try {
-        const { error } = await supabase
-          .from('messages')
-          .insert([{
-            user_id: currentUser.id,
-            username: currentUser.username,
-            content,
-            reply_to: replyToId
-          }]);
-        
+        const { error } = await supabase.from('messages').insert([{
+          user_id: currentUser.id,
+          username: currentUser.username,
+          content,
+          reply_to: replyToId
+        }]);
         if (error) throw error;
-        
-        const pendingEl = document.getElementById(`pending-${tempId}`);
-        if (pendingEl) pendingEl.remove();
-        
+        document.getElementById(`pending-${tempId}`)?.remove();
       } catch (error) {
         console.error('Error sending:', error);
-        const pendingEl = document.getElementById(`pending-${tempId}`);
-        if (pendingEl) pendingEl.remove();
+        document.getElementById(`pending-${tempId}`)?.remove();
         alert('Failed to send message');
       }
-      
       document.getElementById('sendBtn').disabled = false;
     }
 
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Event listeners
-    document.getElementById('messageInput').addEventListener('input', (e) => {
-      const count = e.target.value.length;
+    // Input handling
+    const messageInput = document.getElementById('messageInput');
+    
+    messageInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      const count = val.length;
       const counter = document.getElementById('charCount');
-      if (count > 400) {
-        counter.textContent = `${count}/500`;
-        counter.className = count > 480 ? 'char-count warning' : 'char-count';
+      counter.textContent = count > 400 ? `${count}/500` : '';
+      counter.className = count > 480 ? 'char-count warning' : 'char-count';
+
+      // Typing indicator
+      updatePresence(true, true);
+      clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => updatePresence(true, false), 2000);
+
+      // Mention detection
+      const cursorPos = e.target.selectionStart;
+      const textBeforeCursor = val.substring(0, cursorPos);
+      const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
+      
+      if (mentionMatch) {
+        mentionStartPos = mentionMatch.index;
+        mentionQuery = mentionMatch[1];
+        showMentionSuggestions(mentionQuery);
       } else {
-        counter.textContent = '';
+        hideMentionSuggestions();
       }
     });
 
-    document.getElementById('messageInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+    messageInput.addEventListener('keydown', (e) => {
+      const suggestions = document.getElementById('mentionSuggestions');
+      const isShowingSuggestions = suggestions.classList.contains('active');
+      
+      if (isShowingSuggestions) {
+        const items = suggestions.querySelectorAll('.mention-suggestion');
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          items[selectedMentionIndex]?.classList.remove('selected');
+          selectedMentionIndex = (selectedMentionIndex + 1) % items.length;
+          items[selectedMentionIndex]?.classList.add('selected');
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          items[selectedMentionIndex]?.classList.remove('selected');
+          selectedMentionIndex = (selectedMentionIndex - 1 + items.length) % items.length;
+          items[selectedMentionIndex]?.classList.add('selected');
+        } else if (e.key === 'Tab' || e.key === 'Enter') {
+          e.preventDefault();
+          const selected = items[selectedMentionIndex];
+          if (selected) insertMention(selected.dataset.username);
+        } else if (e.key === 'Escape') {
+          hideMentionSuggestions();
+        }
+      } else if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
+      } else if (e.key === 'Escape') {
+        cancelReply();
+        cancelEdit();
+        cancelImage();
       }
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        cancelReply();
-        cancelImage();
         closeImageModal();
         closeProfile();
+        closeDeleteModal();
       }
     });
 
     document.addEventListener('paste', (e) => {
       const items = e.clipboardData?.items;
       if (!items) return;
-      
       for (const item of items) {
         if (item.type.startsWith('image/')) {
           const file = item.getAsFile();
@@ -1567,16 +1812,16 @@
 
     document.getElementById('messages').addEventListener('scroll', checkScrollPosition);
 
-    // Check for saved session
+    // Init
     const savedUser = localStorage.getItem('ryb-user');
     if (savedUser) {
       try {
         currentUser = JSON.parse(savedUser);
         showChat();
-      } catch (e) {
-        localStorage.removeItem('ryb-user');
-      }
+      } catch (e) { localStorage.removeItem('ryb-user'); }
     }
+
+    window.addEventListener('beforeunload', () => updatePresence(false, false));
   </script>
 </body>
 </html>
