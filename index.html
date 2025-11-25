@@ -573,6 +573,7 @@
     let replyingTo = null;
     let isLoading = false;
     let pendingImage = null;
+    let recentlySentIds = new Map(); // Track IDs we sent to avoid cache issues
 
     // Get consistent color for username
     function getUserColor(username) {
@@ -939,6 +940,18 @@
         
         comments.reverse().forEach(comment => {
           if (comment.id > lastCommentId) {
+            // Skip if we recently sent this (within 30 seconds) - already displayed locally
+            const sentTime = recentlySentIds.get(comment.id);
+            if (sentTime && Date.now() - sentTime < 30000) {
+              lastCommentId = Math.max(lastCommentId, comment.id);
+              return;
+            }
+            
+            // Clean up old sent IDs
+            if (sentTime && Date.now() - sentTime >= 30000) {
+              recentlySentIds.delete(comment.id);
+            }
+            
             if (!allComments.find(c => c.id === comment.id)) {
               allComments.push(comment);
               addMessageToUI(comment);
@@ -1066,6 +1079,9 @@
         
         if (response.ok) {
           const newComment = await response.json();
+          
+          // Track this ID so we don't re-add it from server for 30 seconds
+          recentlySentIds.set(newComment.id, Date.now());
           
           // Remove pending message
           const pendingEl = document.getElementById(`pending-${tempId}`);
