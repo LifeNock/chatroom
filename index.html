@@ -1,46 +1,385 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chat Room</title>
+  <title>RYB Chat</title>
   <style>
-    body { font-family: Arial; max-width: 700px; margin: 50px auto; background: #1e1e1e; color: #fff; }
-    h2 { text-align: center; }
-    #messages { border: 2px solid #444; height: 400px; overflow-y: scroll; padding: 15px; 
-                margin-bottom: 15px; background: #2d2d2d; border-radius: 8px; }
-    .message { margin: 8px 0; padding: 10px; background: #3a3a3a; border-radius: 5px; 
-               border-left: 3px solid #0d7377; }
-    .username { color: #4da8da; font-weight: bold; }
-    .time { color: #888; font-size: 0.8em; margin-left: 10px; }
-    #inputArea { display: flex; gap: 10px; }
-    input { padding: 12px; border: 2px solid #444; background: #2d2d2d; color: #fff; 
-            border-radius: 5px; font-size: 14px; }
-    #username { width: 25%; }
-    #messageInput { flex: 1; }
-    button { padding: 12px 25px; background: #0d7377; border: none; color: white; 
-             border-radius: 5px; cursor: pointer; font-weight: bold; }
-    button:hover { background: #14a085; }
-    #status { text-align: center; color: #888; margin: 10px 0; font-size: 0.9em; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #313338;
+      color: #dbdee1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: #2b2d31;
+      padding: 12px 16px;
+      border-bottom: 1px solid #1e1f22;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-icon {
+      width: 24px;
+      height: 24px;
+      background: #5865f2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #f2f3f5;
+    }
+
+    .online-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: #949ba4;
+    }
+
+    /* Messages area */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    #messages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #messages::-webkit-scrollbar-track {
+      background: #2b2d31;
+      border-radius: 4px;
+    }
+
+    #messages::-webkit-scrollbar-thumb {
+      background: #1a1b1e;
+      border-radius: 4px;
+    }
+
+    .message {
+      padding: 8px 12px;
+      border-radius: 4px;
+      animation: messageIn 0.2s ease-out;
+      transition: background 0.1s;
+    }
+
+    .message:hover {
+      background: #2e3035;
+    }
+
+    @keyframes messageIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .timestamp {
+      font-size: 11px;
+      color: #949ba4;
+    }
+
+    .message-content {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #dbdee1;
+      word-wrap: break-word;
+    }
+
+    /* Username colors */
+    .user-color-1 { color: #f47067; }
+    .user-color-2 { color: #57ab5a; }
+    .user-color-3 { color: #6cb6ff; }
+    .user-color-4 { color: #dcbdfb; }
+    .user-color-5 { color: #f69d50; }
+    .user-color-6 { color: #fc8dc7; }
+
+    /* Typing indicator */
+    #typingIndicator {
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #949ba4;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: #949ba4;
+      border-radius: 50%;
+      animation: typingBounce 1.4s infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    /* Input area */
+    .input-container {
+      padding: 0 16px 24px;
+    }
+
+    .input-wrapper {
+      background: #383a40;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 4px 16px;
+    }
+
+    .input-wrapper:focus-within {
+      box-shadow: 0 0 0 2px #5865f2;
+    }
+
+    #usernameInput {
+      width: 100px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f2f3f5;
+      font-size: 15px;
+      padding: 11px 0;
+      border-right: 1px solid #4e5058;
+      margin-right: 12px;
+    }
+
+    #usernameInput::placeholder {
+      color: #6d6f78;
+    }
+
+    #messageInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #dbdee1;
+      font-size: 15px;
+      padding: 11px 0;
+    }
+
+    #messageInput::placeholder {
+      color: #6d6f78;
+    }
+
+    .char-count {
+      font-size: 12px;
+      color: #6d6f78;
+      margin-right: 8px;
+    }
+
+    .char-count.warning { color: #f47067; }
+
+    #sendBtn {
+      background: #5865f2;
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    #sendBtn:hover {
+      background: #4752c4;
+    }
+
+    #sendBtn:disabled {
+      background: #4e5058;
+      cursor: not-allowed;
+    }
+
+    #sendBtn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Status */
+    #status {
+      font-size: 12px;
+      color: #949ba4;
+      text-align: center;
+      padding: 8px;
+    }
+
+    /* Welcome message */
+    .welcome {
+      text-align: center;
+      padding: 40px 20px;
+      color: #949ba4;
+    }
+
+    .welcome h2 {
+      color: #f2f3f5;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      font-size: 14px;
+    }
+
+    /* New messages indicator */
+    #newMsgBtn {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #5865f2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      display: none;
+      animation: fadeIn 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <h2>RYB Chat</h2>
-  <div id="status">Loading messages...</div>
-  <div id="messages"></div>
-  <div id="inputArea">
-    <input type="text" id="username" placeholder="Your name" maxlength="20">
-    <input type="text" id="messageInput" placeholder="Type message..." maxlength="500">
-    <button onclick="sendMessage()">Send</button>
+  <div class="header">
+    <div class="header-icon">⛵</div>
+    <h1>RYB Chat</h1>
+    <span class="online-count" id="onlineCount"></span>
+  </div>
+
+  <div id="messages">
+    <div class="welcome">
+      <h2>Welcome to RYB Chat</h2>
+      <p>This is the start of your conversation.</p>
+    </div>
+  </div>
+
+  <div id="typingIndicator"></div>
+
+  <button id="newMsgBtn" onclick="scrollToBottom()">New messages ↓</button>
+
+  <div class="input-container">
+    <div class="input-wrapper">
+      <input type="text" id="usernameInput" placeholder="Name" maxlength="20" autocomplete="off">
+      <input type="text" id="messageInput" placeholder="Message #ryb-chat" maxlength="500" autocomplete="off">
+      <span class="char-count" id="charCount"></span>
+      <button id="sendBtn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <script>
-    
     const REPO_OWNER = 'LifeNock';
     const REPO_NAME = 'chatroom';
-    const ISSUE_NUMBER = 1; 
+    const ISSUE_NUMBER = 1;
     const GITHUB_TOKEN = 'uyQUc1KBEg3Ec0VdgNWOA3Bet6tWjCba9fF0_phg'.split('').reverse().join('');
+    
     let lastCommentId = 0;
+    let allMessages = [];
+    let isAtBottom = true;
+    let typingUsers = new Map();
+    let myTypingTimeout = null;
 
-    // Load messages every 3 seconds
+    // Get consistent color for username
+    function getUserColor(username) {
+      let hash = 0;
+      for (let i = 0; i < username.length; i++) {
+        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return 'user-color-' + (Math.abs(hash) % 6 + 1);
+    }
+
+    // Format timestamp
+    function formatTime(date) {
+      const now = new Date();
+      const msgDate = new Date(date);
+      const isToday = now.toDateString() === msgDate.toDateString();
+      
+      const time = msgDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      
+      if (isToday) {
+        return 'Today at ' + time;
+      }
+      
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (yesterday.toDateString() === msgDate.toDateString()) {
+        return 'Yesterday at ' + time;
+      }
+      
+      return msgDate.toLocaleDateString() + ' ' + time;
+    }
+
+    // Check if scrolled to bottom
+    function checkScrollPosition() {
+      const messages = document.getElementById('messages');
+      const threshold = 100;
+      isAtBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight < threshold;
+      
+      if (isAtBottom) {
+        document.getElementById('newMsgBtn').style.display = 'none';
+      }
+    }
+
+    function scrollToBottom() {
+      const messages = document.getElementById('messages');
+      messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+      document.getElementById('newMsgBtn').style.display = 'none';
+    }
+
+    // Load messages
     async function loadMessages() {
       try {
         const response = await fetch(
@@ -53,51 +392,111 @@
           }
         );
         
-        if (!response.ok) {
-          document.getElementById('status').innerText = 'Error loading messages';
-          return;
-        }
+        if (!response.ok) return;
 
         const comments = await response.json();
         const messagesDiv = document.getElementById('messages');
         
+        let hasNewMessages = false;
+        
         comments.forEach(comment => {
           if (comment.id > lastCommentId) {
-            const time = new Date(comment.created_at).toLocaleTimeString();
-            const body = comment.body;
+            // Skip if it's a typing indicator
+            if (comment.body.startsWith('[TYPING]')) {
+              const username = comment.body.replace('[TYPING]', '').trim();
+              typingUsers.set(username, Date.now());
+              updateTypingIndicator();
+              return;
+            }
             
-            // Parse username and message (format: "USERNAME: message")
+            const body = comment.body;
             let username = 'Anonymous';
             let message = body;
+            
             if (body.includes(':')) {
               const parts = body.split(':');
               username = parts[0].trim();
               message = parts.slice(1).join(':').trim();
             }
+
+            // Remove welcome message on first real message
+            const welcome = messagesDiv.querySelector('.welcome');
+            if (welcome) welcome.remove();
             
-            messagesDiv.innerHTML += `
-              <div class="message">
-                <span class="username">${escapeHtml(username)}</span>
-                <span class="time">${time}</span>
-                <div>${escapeHtml(message)}</div>
-              </div>`;
+            const msgEl = document.createElement('div');
+            msgEl.className = 'message';
+            msgEl.innerHTML = `
+              <div class="message-header">
+                <span class="username ${getUserColor(username)}">${escapeHtml(username)}</span>
+                <span class="timestamp">${formatTime(comment.created_at)}</span>
+              </div>
+              <div class="message-content">${escapeHtml(message)}</div>
+            `;
+            messagesDiv.appendChild(msgEl);
+            
+            hasNewMessages = true;
             lastCommentId = comment.id;
           }
         });
         
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        document.getElementById('status').innerText = `${comments.length} messages`;
+        if (hasNewMessages) {
+          if (isAtBottom) {
+            scrollToBottom();
+          } else {
+            document.getElementById('newMsgBtn').style.display = 'block';
+          }
+        }
+
+        document.getElementById('onlineCount').textContent = `${comments.length} messages`;
+        
       } catch (error) {
         console.error('Error:', error);
-        document.getElementById('status').innerText = 'Connection error';
       }
     }
 
+    // Update typing indicator
+    function updateTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      const now = Date.now();
+      const myName = document.getElementById('usernameInput').value.trim() || 'Anonymous';
+      
+      // Remove stale typing indicators (older than 5 seconds)
+      for (const [user, time] of typingUsers) {
+        if (now - time > 5000 || user === myName) {
+          typingUsers.delete(user);
+        }
+      }
+      
+      const users = Array.from(typingUsers.keys());
+      
+      if (users.length === 0) {
+        indicator.innerHTML = '';
+      } else if (users.length === 1) {
+        indicator.innerHTML = `
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+          <span><strong>${escapeHtml(users[0])}</strong> is typing...</span>
+        `;
+      } else if (users.length === 2) {
+        indicator.innerHTML = `
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+          <span><strong>${escapeHtml(users[0])}</strong> and <strong>${escapeHtml(users[1])}</strong> are typing...</span>
+        `;
+      } else {
+        indicator.innerHTML = `
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+          <span>Several people are typing...</span>
+        `;
+      }
+    }
+
+    // Send message
     async function sendMessage() {
-      const username = document.getElementById('username').value.trim() || 'Anonymous';
+      const username = document.getElementById('usernameInput').value.trim() || 'Anonymous';
       const message = document.getElementById('messageInput').value.trim();
       
       if (!message) return;
+      
+      document.getElementById('sendBtn').disabled = true;
       
       try {
         const response = await fetch(
@@ -117,14 +516,14 @@
         
         if (response.ok) {
           document.getElementById('messageInput').value = '';
-          loadMessages(); // Reload immediately after sending
-        } else {
-          alert('Failed to send message');
+          document.getElementById('charCount').textContent = '';
+          loadMessages();
         }
       } catch (error) {
         console.error('Error:', error);
-        alert('Error sending message');
       }
+      
+      document.getElementById('sendBtn').disabled = false;
     }
 
     function escapeHtml(text) {
@@ -133,14 +532,45 @@
       return div.innerHTML;
     }
 
-    // Enter key to send
-    document.getElementById('messageInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
+    // Character counter
+    document.getElementById('messageInput').addEventListener('input', (e) => {
+      const count = e.target.value.length;
+      const counter = document.getElementById('charCount');
+      
+      if (count > 400) {
+        counter.textContent = `${count}/500`;
+        counter.className = count > 480 ? 'char-count warning' : 'char-count';
+      } else {
+        counter.textContent = '';
+      }
     });
 
-    // Load messages initially and every 3 seconds
+    // Enter to send
+    document.getElementById('messageInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Track scroll position
+    document.getElementById('messages').addEventListener('scroll', checkScrollPosition);
+
+    // Save username to localStorage
+    document.getElementById('usernameInput').addEventListener('change', (e) => {
+      localStorage.setItem('ryb-chat-username', e.target.value);
+    });
+
+    // Load saved username
+    const savedUsername = localStorage.getItem('ryb-chat-username');
+    if (savedUsername) {
+      document.getElementById('usernameInput').value = savedUsername;
+    }
+
+    // Initial load and polling
     loadMessages();
     setInterval(loadMessages, 3000);
+    setInterval(updateTypingIndicator, 1000);
   </script>
 </body>
 </html>
