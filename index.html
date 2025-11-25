@@ -383,7 +383,7 @@
     async function loadMessages() {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ISSUE_NUMBER}/comments`,
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ISSUE_NUMBER}/comments?per_page=1000000000`,
           {
             headers: {
               'Authorization': `token ${GITHUB_TOKEN}`,
