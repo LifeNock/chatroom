@@ -399,9 +399,9 @@
     }
 
     .message-action {
-      padding: 6px 8px;
+      padding: 6px 10px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 12px;
       color: #b5bac1;
       border: none;
       background: none;
@@ -1554,10 +1554,10 @@
         </div>
         ${!isPending ? `
           <div class="message-actions">
-            <button class="message-action" onclick="showReactionPicker(${message.id}, this)" title="React">😀</button>
-            <button class="message-action" onclick="setReply(${message.id}, '${escapeHtml(username)}', '${escapeHtml(message.content.substring(0, 50))}')" title="Reply">↩️</button>
-            ${isOwn ? `<button class="message-action" onclick="startEdit(${message.id})" title="Edit">✏️</button>` : ''}
-            ${isOwn ? `<button class="message-action" onclick="promptDelete(${message.id})" title="Delete">🗑️</button>` : ''}
+            <button class="message-action" onclick="showReactionPicker(${message.id}, this)">React</button>
+            <button class="message-action" onclick="setReply(${message.id}, '${escapeHtml(username)}', '${escapeHtml(message.content.substring(0, 50))}')">Reply</button>
+            ${isOwn ? `<button class="message-action" onclick="startEdit(${message.id})">Edit</button>` : ''}
+            ${isOwn ? `<button class="message-action" onclick="promptDelete(${message.id})">Delete</button>` : ''}
           </div>
         ` : ''}
       `;
