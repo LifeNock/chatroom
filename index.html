@@ -5,15 +5,56 @@
   <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
+    :root {
+      --bg-primary: #313338;
+      --bg-secondary: #2b2d31;
+      --bg-tertiary: #1e1f22;
+      --bg-input: #383a40;
+      --bg-hover: #3a3c41;
+      --bg-mention: rgba(250, 168, 26, 0.1);
+      --text-primary: #dbdee1;
+      --text-secondary: #949ba4;
+      --text-tertiary: #6d6f78;
+      --accent: #5865f2;
+      --accent-hover: #4752c4;
+      --accent-light: rgba(88, 101, 242, 0.3);
+      --success: #57ab5a;
+      --danger: #ed4245;
+      --danger-hover: #c93b3e;
+      --warning: #f47067;
+      --border: #4e5058;
+    }
+
+    [data-theme="christmas"] {
+      --bg-primary: #1a3a1a;
+      --bg-secondary: #2d1810;
+      --bg-tertiary: #1e0f0a;
+      --bg-input: #3a1f15;
+      --bg-hover: #4a2f25;
+      --bg-mention: rgba(255, 215, 0, 0.15);
+      --text-primary: #f0e6d2;
+      --text-secondary: #c4b5a0;
+      --text-tertiary: #8a7a65;
+      --accent: #c41e3a;
+      --accent-hover: #a01830;
+      --accent-light: rgba(196, 30, 58, 0.3);
+      --success: #2d7d2d;
+      --danger: #8b1a1a;
+      --danger-hover: #6e1515;
+      --warning: #d4af37;
+      --border: #5a3a2a;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body { 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #313338;
-      color: #dbdee1;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
 
     /* Auth Screen */
@@ -22,11 +63,11 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background: #313338;
+      background: var(--bg-primary);
     }
 
     .auth-box {
-      background: #2b2d31;
+      background: var(--bg-secondary);
       padding: 32px;
       border-radius: 8px;
       width: 100%;
@@ -37,13 +78,13 @@
     .auth-box h1 {
       text-align: center;
       margin-bottom: 8px;
-      color: #f2f3f5;
+      color: var(--text-primary);
       font-size: 24px;
     }
 
     .auth-box .subtitle {
       text-align: center;
-      color: #949ba4;
+      color: var(--text-secondary);
       margin-bottom: 24px;
       font-size: 14px;
     }
@@ -54,20 +95,20 @@
       margin-bottom: 12px;
       border: none;
       border-radius: 4px;
-      background: #1e1f22;
-      color: #dbdee1;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
       font-size: 15px;
     }
 
-    .auth-box input::placeholder { color: #6d6f78; }
-    .auth-box input:focus { outline: 2px solid #5865f2; }
+    .auth-box input::placeholder { color: var(--text-tertiary); }
+    .auth-box input:focus { outline: 2px solid var(--accent); }
 
     .auth-box button {
       width: 100%;
       padding: 12px;
       border: none;
       border-radius: 4px;
-      background: #5865f2;
+      background: var(--accent);
       color: white;
       font-size: 15px;
       font-weight: 600;
@@ -76,18 +117,18 @@
       transition: background 0.15s;
     }
 
-    .auth-box button:hover { background: #4752c4; }
+    .auth-box button:hover { background: var(--accent-hover); }
 
     .auth-box button.secondary {
       background: transparent;
-      border: 1px solid #4e5058;
-      color: #dbdee1;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
     }
 
-    .auth-box button.secondary:hover { background: #3a3c41; }
+    .auth-box button.secondary:hover { background: var(--bg-hover); }
 
     .auth-box .error {
-      color: #f47067;
+      color: var(--warning);
       font-size: 13px;
       margin-bottom: 12px;
       text-align: center;
@@ -95,7 +136,7 @@
 
     .auth-box .divider {
       text-align: center;
-      color: #6d6f78;
+      color: var(--text-tertiary);
       margin: 16px 0;
       font-size: 13px;
     }
@@ -110,9 +151,9 @@
     .chat-container.active { display: flex; }
 
     .header {
-      background: #2b2d31;
+      background: var(--bg-secondary);
       padding: 12px 16px;
-      border-bottom: 1px solid #1e1f22;
+      border-bottom: 1px solid var(--bg-tertiary);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -121,7 +162,7 @@
     .header-icon {
       width: 24px;
       height: 24px;
-      background: #5865f2;
+      background: var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -132,7 +173,7 @@
     .header h1 {
       font-size: 16px;
       font-weight: 600;
-      color: #f2f3f5;
+      color: var(--text-primary);
     }
 
     .connection-status {
@@ -140,11 +181,11 @@
       font-size: 10px;
       padding: 2px 6px;
       border-radius: 10px;
-      background: #57ab5a;
+      background: var(--success);
       color: #fff;
     }
 
-    .connection-status.disconnected { background: #f47067; }
+    .connection-status.disconnected { background: var(--warning); }
 
     .header-right {
       margin-left: auto;
@@ -158,17 +199,17 @@
       align-items: center;
       gap: 4px;
       font-size: 12px;
-      color: #949ba4;
+      color: var(--text-secondary);
     }
 
     .online-dot {
       width: 8px;
       height: 8px;
-      background: #57ab5a;
+      background: var(--success);
       border-radius: 50%;
     }
 
-    .online-count { font-size: 12px; color: #949ba4; }
+    .online-count { font-size: 12px; color: var(--text-secondary); }
 
     .user-menu {
       display: flex;
@@ -181,13 +222,13 @@
       position: relative;
     }
 
-    .user-menu:hover { background: #3a3c41; }
+    .user-menu:hover { background: var(--bg-hover); }
 
     .user-menu-avatar {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #5865f2;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -198,13 +239,13 @@
     }
 
     .user-menu-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .user-menu-name { font-size: 13px; color: #f2f3f5; }
+    .user-menu-name { font-size: 13px; color: var(--text-primary); }
 
     .dropdown {
       position: absolute;
       top: 50px;
       right: 16px;
-      background: #1e1f22;
+      background: var(--bg-tertiary);
       border-radius: 8px;
       padding: 8px;
       min-width: 180px;
@@ -220,21 +261,21 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 14px;
-      color: #dbdee1;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .dropdown-item:hover { background: #3a3c41; }
-    .dropdown-item.danger { color: #f47067; }
+    .dropdown-item:hover { background: var(--bg-hover); }
+    .dropdown-item.danger { color: var(--warning); }
 
     /* Online Users Panel */
     .online-panel {
       position: absolute;
       top: 50px;
       right: 100px;
-      background: #1e1f22;
+      background: var(--bg-tertiary);
       border-radius: 8px;
       padding: 12px;
       min-width: 200px;
@@ -247,7 +288,7 @@
 
     .online-panel h3 {
       font-size: 12px;
-      color: #949ba4;
+      color: var(--text-secondary);
       margin-bottom: 8px;
       text-transform: uppercase;
     }
@@ -263,7 +304,7 @@
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: #5865f2;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -282,12 +323,12 @@
       right: -2px;
       width: 10px;
       height: 10px;
-      background: #57ab5a;
+      background: var(--success);
       border-radius: 50%;
-      border: 2px solid #1e1f22;
+      border: 2px solid var(--bg-tertiary);
     }
 
-    .online-user-name { font-size: 13px; color: #dbdee1; }
+    .online-user-name { font-size: 13px; color: var(--text-primary); }
 
     #messages {
       flex: 1;
@@ -299,8 +340,8 @@
     }
 
     #messages::-webkit-scrollbar { width: 8px; }
-    #messages::-webkit-scrollbar-track { background: #2b2d31; border-radius: 4px; }
-    #messages::-webkit-scrollbar-thumb { background: #1a1b1e; border-radius: 4px; }
+    #messages::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 4px; }
+    #messages::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
 
     .message {
       padding: 8px 12px;
@@ -313,10 +354,10 @@
     }
 
     .message.pending { opacity: 0.6; }
-    .message:hover { background: #2e3035; }
+    .message:hover { background: var(--bg-hover); }
     .message:hover .message-actions { opacity: 1; }
-    .message.mentioned { background: rgba(250, 168, 26, 0.1); border-left: 3px solid #faa81a; }
-    .message.editing { background: rgba(88, 101, 242, 0.1); }
+    .message.mentioned { background: var(--bg-mention); border-left: 3px solid var(--warning); }
+    .message.editing { background: var(--accent-light); }
 
     @keyframes messageIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -327,7 +368,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #5865f2;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -352,13 +393,13 @@
     .username { font-weight: 600; font-size: 15px; cursor: pointer; }
     .username:hover { text-decoration: underline; }
 
-    .timestamp { font-size: 11px; color: #949ba4; }
-    .edited-tag { font-size: 10px; color: #949ba4; margin-left: 4px; }
+    .timestamp { font-size: 11px; color: var(--text-secondary); }
+    .edited-tag { font-size: 10px; color: var(--text-secondary); margin-left: 4px; }
 
     .message-content {
       font-size: 15px;
       line-height: 1.4;
-      color: #dbdee1;
+      color: var(--text-primary);
       word-wrap: break-word;
     }
 
@@ -375,7 +416,7 @@
     .message-content img:hover { transform: scale(1.02); }
 
     .mention {
-      background: rgba(88, 101, 242, 0.3);
+      background: var(--accent-light);
       color: #dee0fc;
       padding: 0 4px;
       border-radius: 4px;
@@ -390,7 +431,7 @@
       position: absolute;
       right: 8px;
       top: -16px;
-      background: #1e1f22;
+      background: var(--bg-tertiary);
       border-radius: 4px;
       display: flex;
       opacity: 0;
@@ -408,7 +449,7 @@
       transition: background 0.1s;
     }
 
-    .message-action:hover { background: #3a3c41; color: #fff; }
+    .message-action:hover { background: var(--bg-hover); color: #fff; }
     .message-action:first-child { border-radius: 4px 0 0 4px; }
     .message-action:last-child { border-radius: 0 4px 4px 0; }
 
@@ -425,7 +466,7 @@
       align-items: center;
       gap: 4px;
       padding: 2px 8px;
-      background: #3a3c41;
+      background: var(--bg-hover);
       border-radius: 12px;
       font-size: 14px;
       cursor: pointer;
@@ -433,14 +474,14 @@
       transition: all 0.1s;
     }
 
-    .reaction:hover { background: #4e5058; }
-    .reaction.active { background: rgba(88, 101, 242, 0.3); border-color: #5865f2; }
-    .reaction-count { font-size: 12px; color: #dbdee1; }
+    .reaction:hover { background: var(--border); }
+    .reaction.active { background: var(--accent-light); border-color: var(--accent); }
+    .reaction-count { font-size: 12px; color: var(--text-primary); }
 
     /* Reaction Picker */
     .reaction-picker {
       position: absolute;
-      background: #1e1f22;
+      background: var(--bg-tertiary);
       border-radius: 8px;
       padding: 8px;
       display: none;
@@ -459,7 +500,7 @@
       transition: background 0.1s;
     }
 
-    .reaction-option:hover { background: #3a3c41; }
+    .reaction-option:hover { background: var(--bg-hover); }
 
     .reply-context {
       display: flex;
@@ -468,8 +509,8 @@
       padding: 4px 8px;
       margin-bottom: 4px;
       font-size: 13px;
-      color: #949ba4;
-      border-left: 2px solid #4e5058;
+      color: var(--text-secondary);
+      border-left: 2px solid var(--border);
       background: rgba(0,0,0,0.1);
       border-radius: 0 4px 4px 0;
       cursor: pointer;
@@ -485,8 +526,8 @@
       max-width: 300px;
     }
 
-    .user-color-1 { color: #f47067; }
-    .user-color-2 { color: #57ab5a; }
+    .user-color-1 { color: var(--warning); }
+    .user-color-2 { color: var(--success); }
     .user-color-3 { color: #6cb6ff; }
     .user-color-4 { color: #dcbdfb; }
     .user-color-5 { color: #f69d50; }
@@ -496,7 +537,7 @@
     #typingIndicator {
       padding: 8px 16px;
       font-size: 13px;
-      color: #949ba4;
+      color: var(--text-secondary);
       min-height: 28px;
       display: flex;
       align-items: center;
@@ -511,7 +552,7 @@
     .typing-dots span {
       width: 6px;
       height: 6px;
-      background: #949ba4;
+      background: var(--text-secondary);
       border-radius: 50%;
       animation: typingBounce 1.4s infinite;
     }
@@ -527,8 +568,8 @@
     #replyBar {
       display: none;
       padding: 8px 16px;
-      background: #2b2d31;
-      border-top: 1px solid #1e1f22;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--bg-tertiary);
       align-items: center;
       gap: 12px;
       animation: slideIn 0.15s ease-out;
@@ -541,13 +582,13 @@
 
     #replyBar.active { display: flex; }
 
-    #replyBar .reply-preview { flex: 1; font-size: 13px; color: #949ba4; }
+    #replyBar .reply-preview { flex: 1; font-size: 13px; color: var(--text-secondary); }
     #replyBar .reply-preview strong { color: #00a8fc; }
 
     #replyBar .cancel-reply, #editBar .cancel-edit {
       background: none;
       border: none;
-      color: #949ba4;
+      color: var(--text-secondary);
       cursor: pointer;
       font-size: 18px;
       padding: 4px;
@@ -559,21 +600,21 @@
     #editBar {
       display: none;
       padding: 8px 16px;
-      background: #2b2d31;
-      border-top: 1px solid #1e1f22;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--bg-tertiary);
       align-items: center;
       gap: 12px;
       animation: slideIn 0.15s ease-out;
     }
 
     #editBar.active { display: flex; }
-    #editBar .edit-label { flex: 1; font-size: 13px; color: #5865f2; }
+    #editBar .edit-label { flex: 1; font-size: 13px; color: var(--accent); }
 
     #imagePreviewBar {
       display: none;
       padding: 8px 16px;
-      background: #2b2d31;
-      border-top: 1px solid #1e1f22;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--bg-tertiary);
       align-items: center;
       gap: 12px;
       animation: slideIn 0.15s ease-out;
@@ -587,12 +628,12 @@
       border-radius: 4px;
     }
 
-    #imagePreviewBar .preview-info { flex: 1; font-size: 13px; color: #949ba4; }
+    #imagePreviewBar .preview-info { flex: 1; font-size: 13px; color: var(--text-secondary); }
 
     #imagePreviewBar .cancel-image {
       background: none;
       border: none;
-      color: #949ba4;
+      color: var(--text-secondary);
       cursor: pointer;
       font-size: 18px;
       padding: 4px;
@@ -603,14 +644,14 @@
     .input-container { padding: 0 16px 24px; position: relative; }
 
     .input-wrapper {
-      background: #383a40;
+      background: var(--bg-input);
       border-radius: 8px;
       display: flex;
       align-items: center;
       padding: 4px 12px;
     }
 
-    .input-wrapper:focus-within { box-shadow: 0 0 0 2px #5865f2; }
+    .input-wrapper:focus-within { box-shadow: 0 0 0 2px var(--accent); }
 
     .upload-btn {
       background: none;
@@ -626,7 +667,7 @@
       margin-right: 8px;
     }
 
-    .upload-btn:hover { color: #fff; background: #4e5058; }
+    .upload-btn:hover { color: #fff; background: var(--border); }
     .upload-btn svg { width: 20px; height: 20px; }
 
     #messageInput {
@@ -634,18 +675,18 @@
       background: transparent;
       border: none;
       outline: none;
-      color: #dbdee1;
+      color: var(--text-primary);
       font-size: 15px;
       padding: 11px 0;
     }
 
-    #messageInput::placeholder { color: #6d6f78; }
+    #messageInput::placeholder { color: var(--text-tertiary); }
 
-    .char-count { font-size: 12px; color: #6d6f78; margin-right: 8px; }
-    .char-count.warning { color: #f47067; }
+    .char-count { font-size: 12px; color: var(--text-tertiary); margin-right: 8px; }
+    .char-count.warning { color: var(--warning); }
 
     #sendBtn {
-      background: #5865f2;
+      background: var(--accent);
       border: none;
       color: white;
       width: 32px;
@@ -658,8 +699,8 @@
       transition: background 0.15s;
     }
 
-    #sendBtn:hover { background: #4752c4; }
-    #sendBtn:disabled { background: #4e5058; cursor: not-allowed; }
+    #sendBtn:hover { background: var(--accent-hover); }
+    #sendBtn:disabled { background: var(--border); cursor: not-allowed; }
     #sendBtn svg { width: 18px; height: 18px; }
 
     /* Mention Suggestions */
@@ -668,7 +709,7 @@
       bottom: 100%;
       left: 16px;
       right: 16px;
-      background: #1e1f22;
+      background: var(--bg-tertiary);
       border-radius: 8px;
       padding: 8px 0;
       display: none;
@@ -689,13 +730,13 @@
       transition: background 0.1s;
     }
 
-    .mention-suggestion:hover, .mention-suggestion.selected { background: #3a3c41; }
+    .mention-suggestion:hover, .mention-suggestion.selected { background: var(--bg-hover); }
 
     .mention-suggestion-avatar {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #5865f2;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -706,10 +747,10 @@
     }
 
     .mention-suggestion-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .mention-suggestion-name { font-size: 14px; color: #f2f3f5; }
+    .mention-suggestion-name { font-size: 14px; color: var(--text-primary); }
 
-    .welcome { text-align: center; padding: 40px 20px; color: #949ba4; }
-    .welcome h2 { color: #f2f3f5; font-size: 24px; margin-bottom: 8px; }
+    .welcome { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+    .welcome h2 { color: var(--text-primary); font-size: 24px; margin-bottom: 8px; }
     .welcome p { font-size: 14px; }
 
     #newMsgBtn {
@@ -717,7 +758,7 @@
       bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
-      background: #5865f2;
+      background: var(--accent);
       color: white;
       border: none;
       padding: 8px 16px;
@@ -751,7 +792,7 @@
     #imageModal.active { display: flex; }
     #imageModal img { max-width: 90%; max-height: 90%; border-radius: 8px; }
 
-    .upload-progress { font-size: 12px; color: #949ba4; margin-right: 8px; }
+    .upload-progress { font-size: 12px; color: var(--text-secondary); margin-right: 8px; }
     #fileInput, #avatarInput { display: none; }
 
     /* Profile Modal */
@@ -771,15 +812,17 @@
     .modal-overlay.active { display: flex; }
 
     .modal {
-      background: #2b2d31;
+      background: var(--bg-secondary);
       border-radius: 8px;
       padding: 24px;
       width: 100%;
       max-width: 400px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
-    .modal h2 { color: #f2f3f5; margin-bottom: 20px; font-size: 20px; }
+    .modal h2 { color: var(--text-primary); margin-bottom: 20px; font-size: 20px; }
 
     .modal .avatar-upload {
       display: flex;
@@ -792,7 +835,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #5865f2;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -807,14 +850,14 @@
 
     .modal .avatar-preview:hover { opacity: 0.8; }
     .modal .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-    .modal .avatar-hint { font-size: 12px; color: #949ba4; }
+    .modal .avatar-hint { font-size: 12px; color: var(--text-secondary); }
 
     .modal button {
       width: 100%;
       padding: 12px;
       border: none;
       border-radius: 4px;
-      background: #5865f2;
+      background: var(--accent);
       color: white;
       font-size: 14px;
       font-weight: 600;
@@ -822,9 +865,9 @@
       margin-top: 12px;
     }
 
-    .modal button:hover { background: #4752c4; }
-    .modal button.cancel { background: transparent; color: #949ba4; }
-    .modal button.cancel:hover { color: #f2f3f5; }
+    .modal button:hover { background: var(--accent-hover); }
+    .modal button.cancel { background: transparent; color: var(--text-secondary); }
+    .modal button.cancel:hover { color: var(--text-primary); }
 
     /* Delete Confirmation */
     .confirm-modal .modal {
@@ -832,11 +875,133 @@
       text-align: center;
     }
 
-    .confirm-modal p { color: #949ba4; margin-bottom: 20px; font-size: 14px; }
+    .confirm-modal p { color: var(--text-secondary); margin-bottom: 20px; font-size: 14px; }
     .confirm-modal .btn-row { display: flex; gap: 12px; }
     .confirm-modal .btn-row button { flex: 1; margin-top: 0; }
-    .confirm-modal .btn-danger { background: #ed4245; }
-    .confirm-modal .btn-danger:hover { background: #c93b3e; }
+    .confirm-modal .btn-danger { background: var(--danger); }
+    .confirm-modal .btn-danger:hover { background: var(--danger-hover); }
+
+    /* Theme Settings */
+    .theme-section {
+      margin-bottom: 24px;
+    }
+
+    .theme-section h3 {
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .theme-presets {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .theme-preset {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      background: var(--bg-tertiary);
+    }
+
+    .theme-preset:hover {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+    }
+
+    .theme-preset.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .theme-preset-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .theme-preset-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .custom-theme-toggle {
+      padding: 10px 12px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .custom-theme-toggle:hover {
+      background: var(--bg-hover);
+    }
+
+    .custom-theme-panel {
+      display: none;
+      gap: 12px;
+    }
+
+    .custom-theme-panel.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .color-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .color-input-group label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .color-input-wrapper {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .color-input-wrapper input[type="color"] {
+      width: 40px;
+      height: 32px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .color-input-wrapper input[type="text"] {
+      flex: 1;
+      padding: 6px 8px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .expand-icon {
+      transition: transform 0.2s;
+    }
+
+    .expand-icon.expanded {
+      transform: rotate(180deg);
+    }
   </style>
 </head>
 <body>
@@ -884,6 +1049,9 @@
       <div class="dropdown" id="dropdown">
         <div class="dropdown-item" onclick="openProfile()">
           <span>👤</span> Edit Profile
+        </div>
+        <div class="dropdown-item" onclick="openThemeSettings()">
+          <span>🎨</span> Theme Settings
         </div>
         <div class="dropdown-item danger" onclick="logout()">
           <span>🚪</span> Log Out
@@ -964,6 +1132,81 @@
     </div>
   </div>
 
+  <!-- Theme Settings Modal -->
+  <div class="modal-overlay" id="themeModal">
+    <div class="modal">
+      <h2>🎨 Theme Settings</h2>
+      
+      <div class="theme-section">
+        <h3>Presets</h3>
+        <div class="theme-presets">
+          <div class="theme-preset" data-theme="default" onclick="selectThemePreset('default')">
+            <div class="theme-preset-icon">🌙</div>
+            <div class="theme-preset-name">Default</div>
+          </div>
+          <div class="theme-preset" data-theme="christmas" onclick="selectThemePreset('christmas')">
+            <div class="theme-preset-icon">🎄</div>
+            <div class="theme-preset-name">Christmas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-section">
+        <div class="custom-theme-toggle" onclick="toggleCustomTheme()">
+          <span>Custom Theme</span>
+          <span class="expand-icon" id="expandIcon">▼</span>
+        </div>
+        <div class="custom-theme-panel" id="customThemePanel">
+          <div class="color-input-group">
+            <label>Primary Background</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorBgPrimary" onchange="updateCustomColor('bg-primary', this.value)">
+              <input type="text" id="textBgPrimary" value="#313338" onchange="updateCustomColorFromText('bg-primary', this.value)">
+            </div>
+          </div>
+          <div class="color-input-group">
+            <label>Secondary Background</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorBgSecondary" onchange="updateCustomColor('bg-secondary', this.value)">
+              <input type="text" id="textBgSecondary" value="#2b2d31" onchange="updateCustomColorFromText('bg-secondary', this.value)">
+            </div>
+          </div>
+          <div class="color-input-group">
+            <label>Tertiary Background</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorBgTertiary" onchange="updateCustomColor('bg-tertiary', this.value)">
+              <input type="text" id="textBgTertiary" value="#1e1f22" onchange="updateCustomColorFromText('bg-tertiary', this.value)">
+            </div>
+          </div>
+          <div class="color-input-group">
+            <label>Primary Text</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorTextPrimary" onchange="updateCustomColor('text-primary', this.value)">
+              <input type="text" id="textTextPrimary" value="#dbdee1" onchange="updateCustomColorFromText('text-primary', this.value)">
+            </div>
+          </div>
+          <div class="color-input-group">
+            <label>Secondary Text</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorTextSecondary" onchange="updateCustomColor('text-secondary', this.value)">
+              <input type="text" id="textTextSecondary" value="#949ba4" onchange="updateCustomColorFromText('text-secondary', this.value)">
+            </div>
+          </div>
+          <div class="color-input-group">
+            <label>Accent Color</label>
+            <div class="color-input-wrapper">
+              <input type="color" id="colorAccent" onchange="updateCustomColor('accent', this.value)">
+              <input type="text" id="textAccent" value="#5865f2" onchange="updateCustomColorFromText('accent', this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="saveTheme()">Save Theme</button>
+      <button class="cancel" onclick="closeThemeSettings()">Cancel</button>
+    </div>
+  </div>
+
   <!-- Delete Confirmation Modal -->
   <div class="modal-overlay confirm-modal" id="deleteModal">
     <div class="modal">
@@ -999,6 +1242,34 @@
     let mentionQuery = '';
     let mentionStartPos = -1;
     let selectedMentionIndex = 0;
+    let customThemeExpanded = false;
+    let currentThemeConfig = { preset: 'default' };
+
+    // Theme presets
+    const THEME_PRESETS = {
+      default: {
+        'bg-primary': '#313338',
+        'bg-secondary': '#2b2d31',
+        'bg-tertiary': '#1e1f22',
+        'bg-input': '#383a40',
+        'text-primary': '#dbdee1',
+        'text-secondary': '#949ba4',
+        'text-tertiary': '#6d6f78',
+        'accent': '#5865f2',
+        'accent-hover': '#4752c4'
+      },
+      christmas: {
+        'bg-primary': '#1a3a1a',
+        'bg-secondary': '#2d1810',
+        'bg-tertiary': '#1e0f0a',
+        'bg-input': '#3a1f15',
+        'text-primary': '#f0e6d2',
+        'text-secondary': '#c4b5a0',
+        'text-tertiary': '#8a7a65',
+        'accent': '#c41e3a',
+        'accent-hover': '#a01830'
+      }
+    };
 
     // Favicon
     const normalFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text></svg>";
@@ -1016,6 +1287,128 @@
       document.title = 'RYB Chat';
     });
     window.addEventListener('blur', () => { windowFocused = false; });
+
+    // Theme Functions
+    function applyTheme(config) {
+      currentThemeConfig = config;
+      
+      if (config.preset && config.preset !== 'custom') {
+        document.body.setAttribute('data-theme', config.preset);
+        document.body.style.removeProperty('--bg-primary');
+        document.body.style.removeProperty('--bg-secondary');
+        document.body.style.removeProperty('--bg-tertiary');
+        document.body.style.removeProperty('--bg-input');
+        document.body.style.removeProperty('--text-primary');
+        document.body.style.removeProperty('--text-secondary');
+        document.body.style.removeProperty('--text-tertiary');
+        document.body.style.removeProperty('--accent');
+        document.body.style.removeProperty('--accent-hover');
+      } else if (config.custom) {
+        document.body.removeAttribute('data-theme');
+        Object.entries(config.custom).forEach(([key, value]) => {
+          document.body.style.setProperty(`--${key}`, value);
+        });
+      }
+    }
+
+    function openThemeSettings() {
+      document.getElementById('dropdown').classList.remove('active');
+      document.getElementById('themeModal').classList.add('active');
+      
+      // Update UI to reflect current theme
+      const presets = document.querySelectorAll('.theme-preset');
+      presets.forEach(p => {
+        if (p.dataset.theme === currentThemeConfig.preset) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+        }
+      });
+
+      // Load custom colors if present
+      if (currentThemeConfig.custom) {
+        Object.entries(currentThemeConfig.custom).forEach(([key, value]) => {
+          const colorInput = document.getElementById(`color${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+          const textInput = document.getElementById(`text${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+          if (colorInput) colorInput.value = value;
+          if (textInput) textInput.value = value;
+        });
+      }
+    }
+
+    function closeThemeSettings() {
+      document.getElementById('themeModal').classList.remove('active');
+      customThemeExpanded = false;
+      document.getElementById('customThemePanel').classList.remove('active');
+      document.getElementById('expandIcon').classList.remove('expanded');
+    }
+
+    function toggleCustomTheme() {
+      customThemeExpanded = !customThemeExpanded;
+      document.getElementById('customThemePanel').classList.toggle('active');
+      document.getElementById('expandIcon').classList.toggle('expanded');
+    }
+
+    function selectThemePreset(preset) {
+      currentThemeConfig = { preset };
+      applyTheme(currentThemeConfig);
+      
+      // Update UI
+      document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
+      document.querySelector(`[data-theme="${preset}"]`).classList.add('active');
+    }
+
+    function updateCustomColor(key, value) {
+      if (!currentThemeConfig.custom) currentThemeConfig.custom = {};
+      currentThemeConfig.custom[key] = value;
+      currentThemeConfig.preset = 'custom';
+      
+      // Update text input
+      const textInput = document.getElementById(`text${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+      if (textInput) textInput.value = value;
+      
+      applyTheme(currentThemeConfig);
+      document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
+    }
+
+    function updateCustomColorFromText(key, value) {
+      if (!value.match(/^#[0-9A-F]{6}$/i)) return;
+      
+      if (!currentThemeConfig.custom) currentThemeConfig.custom = {};
+      currentThemeConfig.custom[key] = value;
+      currentThemeConfig.preset = 'custom';
+      
+      // Update color input
+      const colorInput = document.getElementById(`color${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+      if (colorInput) colorInput.value = value;
+      
+      applyTheme(currentThemeConfig);
+      document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
+    }
+
+    async function saveTheme() {
+      try {
+        const { error } = await supabase
+          .from('users')
+          .update({ theme: currentThemeConfig })
+          .eq('id', currentUser.id);
+        
+        if (error) throw error;
+        
+        currentUser.theme = currentThemeConfig;
+        localStorage.setItem('ryb-user', JSON.stringify(currentUser));
+        closeThemeSettings();
+      } catch (error) {
+        console.error('Save theme error:', error);
+        alert('Failed to save theme');
+      }
+    }
+
+    function loadUserTheme() {
+      if (currentUser.theme) {
+        applyTheme(currentUser.theme);
+      }
+    }
 
     // Password hashing
     async function hashPassword(password) {
@@ -1099,6 +1492,7 @@
     async function showChat() {
       document.getElementById('authScreen').style.display = 'none';
       document.getElementById('chatScreen').classList.add('active');
+      loadUserTheme();
       updateUserMenu();
       await loadUsers();
       await loadMessages();
@@ -1268,12 +1662,10 @@
 
     function processMessageContent(text) {
       let escaped = escapeHtml(text);
-      // Mentions
       escaped = escaped.replace(/@(\w+)/g, (match, username) => {
         const isMentioningMe = username.toLowerCase() === currentUser.username.toLowerCase();
         return `<span class="mention" data-user="${username}">${match}</span>`;
       });
-      // Images
       const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
       escaped = escaped.replace(imageRegex, (url) => `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`);
       return escaped;
@@ -1665,7 +2057,6 @@
     async function sendMessage() {
       let content = document.getElementById('messageInput').value.trim();
 
-      // Handle edit
       if (editingMessage) {
         if (!content) { cancelEdit(); return; }
         try {
@@ -1675,7 +2066,6 @@
         return;
       }
 
-      // Handle image
       if (pendingImage) {
         const imageUrl = await uploadImage(pendingImage);
         if (imageUrl) content = content ? `${content} ${imageUrl}` : imageUrl;
@@ -1729,12 +2119,10 @@
       counter.textContent = count > 400 ? `${count}/500` : '';
       counter.className = count > 480 ? 'char-count warning' : 'char-count';
 
-      // Typing indicator
       updatePresence(true, true);
       clearTimeout(typingTimeout);
       typingTimeout = setTimeout(() => updatePresence(true, false), 2000);
 
-      // Mention detection
       const cursorPos = e.target.selectionStart;
       const textBeforeCursor = val.substring(0, cursorPos);
       const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
@@ -1786,6 +2174,7 @@
         closeImageModal();
         closeProfile();
         closeDeleteModal();
+        closeThemeSettings();
       }
     });
 
