@@ -1223,7 +1223,20 @@
     const SUPABASE_URL = 'https://sfilmsuauhmhmlatqoqm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmaWxtc3VhdWhtaG1sYXRxb3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwODM4MDksImV4cCI6MjA3OTY1OTgwOX0.H50budPYVnFIOfW63M9A9RjX4cUPlVTDh3qHkOMCCI0';
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false
+  },
+  db: {
+    schema: 'public'
+  },
+  global: {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+});
     const REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
     
     let currentUser = null;
