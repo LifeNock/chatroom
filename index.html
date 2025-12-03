@@ -6,6 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
+      --font-family: 'Segoe UI';
       --bg-primary: #313338;
       --bg-secondary: #2b2d31;
       --bg-tertiary: #1e1f22;
@@ -48,7 +49,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: var(--font-family), Tahoma, Geneva, Verdana, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       height: 100vh;
@@ -57,7 +58,6 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Auth Screen */
     .auth-container {
       display: flex;
       align-items: center;
@@ -141,7 +141,6 @@
       font-size: 13px;
     }
 
-    /* Chat Container */
     .chat-container {
       display: none;
       flex-direction: column;
@@ -175,6 +174,110 @@
       font-weight: 600;
       color: var(--text-primary);
     }
+
+    .room-switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.15s;
+      margin-left: 8px;
+    }
+
+    .room-switcher:hover { background: var(--bg-hover); }
+
+    .room-dropdown-icon {
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: transform 0.2s;
+    }
+
+    .room-dropdown-icon.active { transform: rotate(180deg); }
+
+    .rooms-dropdown {
+      position: absolute;
+      top: 50px;
+      left: 16px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 8px;
+      min-width: 220px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      display: none;
+      z-index: 100;
+    }
+
+    .rooms-dropdown.active { display: block; }
+
+    .rooms-dropdown h3 {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      padding: 0 8px;
+      font-weight: 600;
+    }
+
+    .room-item {
+      padding: 10px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.1s;
+      margin-bottom: 2px;
+    }
+
+    .room-item:hover { background: var(--bg-hover); }
+    .room-item.active { 
+      background: var(--accent-light); 
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .room-item-info { flex: 1; }
+    .room-item-name { font-weight: 500; }
+    .room-item-desc { 
+      font-size: 11px; 
+      color: var(--text-secondary); 
+      margin-top: 2px;
+    }
+    .room-item-count { 
+      font-size: 11px; 
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+
+    .rooms-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .create-room-btn {
+      width: 100%;
+      padding: 8px 12px;
+      margin-top: 8px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+
+    .create-room-btn:hover { background: var(--accent-hover); }
 
     .connection-status {
       margin-left: 8px;
@@ -270,7 +373,6 @@
     .dropdown-item:hover { background: var(--bg-hover); }
     .dropdown-item.danger { color: var(--warning); }
 
-    /* Online Users Panel */
     .online-panel {
       position: absolute;
       top: 50px;
@@ -426,7 +528,6 @@
 
     .mention:hover { background: rgba(88, 101, 242, 0.5); }
 
-    /* Message Actions */
     .message-actions {
       position: absolute;
       right: 8px;
@@ -453,7 +554,6 @@
     .message-action:first-child { border-radius: 4px 0 0 4px; }
     .message-action:last-child { border-radius: 0 4px 4px 0; }
 
-    /* Reactions */
     .reactions {
       display: flex;
       flex-wrap: wrap;
@@ -478,7 +578,6 @@
     .reaction.active { background: var(--accent-light); border-color: var(--accent); }
     .reaction-count { font-size: 12px; color: var(--text-primary); }
 
-    /* Reaction Picker */
     .reaction-picker {
       position: absolute;
       background: var(--bg-tertiary);
@@ -533,7 +632,6 @@
     .user-color-5 { color: #f69d50; }
     .user-color-6 { color: #fc8dc7; }
 
-    /* Typing Indicator */
     #typingIndicator {
       padding: 8px 16px;
       font-size: 13px;
@@ -596,7 +694,6 @@
 
     #replyBar .cancel-reply:hover, #editBar .cancel-edit:hover { color: #fff; }
 
-    /* Edit Bar */
     #editBar {
       display: none;
       padding: 8px 16px;
@@ -703,7 +800,6 @@
     #sendBtn:disabled { background: var(--border); cursor: not-allowed; }
     #sendBtn svg { width: 18px; height: 18px; }
 
-    /* Mention Suggestions */
     .mention-suggestions {
       position: absolute;
       bottom: 100%;
@@ -795,7 +891,6 @@
     .upload-progress { font-size: 12px; color: var(--text-secondary); margin-right: 8px; }
     #fileInput, #avatarInput { display: none; }
 
-    /* Profile Modal */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -869,7 +964,6 @@
     .modal button.cancel { background: transparent; color: var(--text-secondary); }
     .modal button.cancel:hover { color: var(--text-primary); }
 
-    /* Delete Confirmation */
     .confirm-modal .modal {
       max-width: 320px;
       text-align: center;
@@ -881,7 +975,6 @@
     .confirm-modal .btn-danger { background: var(--danger); }
     .confirm-modal .btn-danger:hover { background: var(--danger-hover); }
 
-    /* Theme Settings */
     .theme-section {
       margin-bottom: 24px;
     }
@@ -1002,10 +1095,57 @@
     .expand-icon.expanded {
       transform: rotate(180deg);
     }
+
+    .font-section { margin-bottom: 24px; }
+
+    .font-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    .font-option {
+      padding: 12px;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .font-option:hover {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+      transform: translateY(-2px);
+    }
+
+    .font-option.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .font-name {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .font-preview {
+      font-size: 16px;
+      color: var(--text-primary);
+    }
+
+    .font-grid::-webkit-scrollbar { width: 8px; }
+    .font-grid::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 4px; }
+    .font-grid::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
   </style>
 </head>
 <body>
-  <!-- Auth Screen -->
   <div class="auth-container" id="authScreen">
     <div class="auth-box">
       <h1>⛵ RYB Chat</h1>
@@ -1029,11 +1169,13 @@
     </div>
   </div>
 
-  <!-- Chat Screen -->
   <div class="chat-container" id="chatScreen">
     <div class="header">
       <div class="header-icon">⛵</div>
-      <h1>RYB Chat</h1>
+      <div class="room-switcher" onclick="toggleRoomsDropdown()">
+        <h1 id="currentRoomName">RYB Chat</h1>
+        <span class="room-dropdown-icon" id="roomDropdownIcon">▼</span>
+      </div>
       <span class="connection-status" id="connectionStatus">Live</span>
       <div class="header-right">
         <div class="online-users" onclick="toggleOnlinePanel()" style="cursor:pointer;">
@@ -1060,6 +1202,12 @@
       <div class="online-panel" id="onlinePanel">
         <h3>Online</h3>
         <div id="onlineUsersList"></div>
+      </div>
+      <div class="rooms-dropdown" id="roomsDropdown">
+        <h3>Rooms</h3>
+        <div id="roomsList"></div>
+        <div class="rooms-divider"></div>
+        <button class="create-room-btn" onclick="openCreateRoom()">+ Create Room</button>
       </div>
     </div>
 
@@ -1113,12 +1261,10 @@
     </div>
   </div>
 
-  <!-- Image Modal -->
   <div id="imageModal" onclick="closeImageModal()">
     <img id="modalImage" src="">
   </div>
 
-  <!-- Profile Modal -->
   <div class="modal-overlay" id="profileModal">
     <div class="modal">
       <h2>Edit Profile</h2>
@@ -1132,7 +1278,6 @@
     </div>
   </div>
 
-  <!-- Theme Settings Modal -->
   <div class="modal-overlay" id="themeModal">
     <div class="modal">
       <h2>🎨 Theme Settings</h2>
@@ -1202,12 +1347,16 @@
         </div>
       </div>
 
+      <div class="theme-section font-section">
+        <h3>Font Family</h3>
+        <div class="font-grid" id="fontGrid"></div>
+      </div>
+
       <button onclick="saveTheme()">Save Theme</button>
       <button class="cancel" onclick="closeThemeSettings()">Cancel</button>
     </div>
   </div>
 
-  <!-- Delete Confirmation Modal -->
   <div class="modal-overlay confirm-modal" id="deleteModal">
     <div class="modal">
       <h2>Delete Message</h2>
@@ -1216,6 +1365,17 @@
         <button class="cancel" onclick="closeDeleteModal()">Cancel</button>
         <button class="btn-danger" onclick="confirmDelete()">Delete</button>
       </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="createRoomModal">
+    <div class="modal">
+      <h2>Create Room</h2>
+      <input type="text" id="newRoomName" placeholder="Room name (e.g., 'game-dev')" maxlength="30" style="width: 100%; padding: 10px; margin-bottom: 12px; border: none; border-radius: 4px; background: var(--bg-tertiary); color: var(--text-primary); font-size: 14px;">
+      <input type="text" id="newRoomDesc" placeholder="Description (optional)" maxlength="100" style="width: 100%; padding: 10px; margin-bottom: 12px; border: none; border-radius: 4px; background: var(--bg-tertiary); color: var(--text-primary); font-size: 14px;">
+      <div id="createRoomError" class="error" style="display: none; color: var(--warning); font-size: 13px; margin-bottom: 12px;"></div>
+      <button onclick="createRoom()">Create Room</button>
+      <button class="cancel" onclick="closeCreateRoom()">Cancel</button>
     </div>
   </div>
 
@@ -1237,8 +1397,33 @@
   }
 });
     const REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
+    const AVAILABLE_FONTS = [
+      { name: 'Segoe UI', example: 'The quick brown fox' },
+      { name: 'Arial', example: 'The quick brown fox' },
+      { name: 'Helvetica', example: 'The quick brown fox' },
+      { name: 'Georgia', example: 'The quick brown fox' },
+      { name: 'Times New Roman', example: 'The quick brown fox' },
+      { name: 'Courier New', example: 'The quick brown fox' },
+      { name: 'Verdana', example: 'The quick brown fox' },
+      { name: 'Trebuchet MS', example: 'The quick brown fox' },
+      { name: 'Comic Sans MS', example: 'The quick brown fox' },
+      { name: 'Impact', example: 'The quick brown fox' },
+      { name: 'Palatino', example: 'The quick brown fox' },
+      { name: 'Garamond', example: 'The quick brown fox' },
+      { name: 'Bookman', example: 'The quick brown fox' },
+      { name: 'Tahoma', example: 'The quick brown fox' },
+      { name: 'Lucida Console', example: 'The quick brown fox' },
+      { name: 'Monaco', example: 'The quick brown fox' },
+      { name: 'Brush Script MT', example: 'The quick brown fox' },
+      { name: 'Copperplate', example: 'The quick brown fox' },
+      { name: 'Papyrus', example: 'The quick brown fox' },
+      { name: 'Consolas', example: 'The quick brown fox' }
+    ];
     
     let currentUser = null;
+    let currentRoom = null;
+    let allRooms = [];
+    let roomMessageCounts = {};
     let usersCache = {};
     let allMessages = [];
     let reactionsCache = {};
@@ -1257,7 +1442,6 @@
     let customThemeExpanded = false;
     let currentThemeConfig = { preset: 'default' };
 
-    // Theme presets
     const THEME_PRESETS = {
       default: {
         'bg-primary': '#313338',
@@ -1283,7 +1467,6 @@
       }
     };
 
-    // Favicon
     const normalFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text></svg>";
     const notificationFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%235865f2'/><text x='50' y='68' text-anchor='middle' font-size='50'>⛵</text><circle cx='80' cy='20' r='18' fill='%23ed4245'/></svg>";
 
@@ -1300,10 +1483,8 @@
     });
     window.addEventListener('blur', () => { windowFocused = false; });
 
-    // Theme Functions
     function applyTheme(config) {
       currentThemeConfig = config;
-      
       if (config.preset && config.preset !== 'custom') {
         document.body.setAttribute('data-theme', config.preset);
         document.body.style.removeProperty('--bg-primary');
@@ -1318,7 +1499,7 @@
       } else if (config.custom) {
         document.body.removeAttribute('data-theme');
         Object.entries(config.custom).forEach(([key, value]) => {
-          document.body.style.setProperty(`--${key}`, value);
+          document.body.style.setProperty(\`--\${key}\`, value);
         });
       }
     }
@@ -1326,8 +1507,6 @@
     function openThemeSettings() {
       document.getElementById('dropdown').classList.remove('active');
       document.getElementById('themeModal').classList.add('active');
-      
-      // Update UI to reflect current theme
       const presets = document.querySelectorAll('.theme-preset');
       presets.forEach(p => {
         if (p.dataset.theme === currentThemeConfig.preset) {
@@ -1336,16 +1515,15 @@
           p.classList.remove('active');
         }
       });
-
-      // Load custom colors if present
       if (currentThemeConfig.custom) {
         Object.entries(currentThemeConfig.custom).forEach(([key, value]) => {
-          const colorInput = document.getElementById(`color${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
-          const textInput = document.getElementById(`text${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+          const colorInput = document.getElementById(\`color\${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}\`);
+          const textInput = document.getElementById(\`text\${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}\`);
           if (colorInput) colorInput.value = value;
           if (textInput) textInput.value = value;
         });
       }
+      renderFontOptions();
     }
 
     function closeThemeSettings() {
@@ -1364,50 +1542,41 @@
     function selectThemePreset(preset) {
       currentThemeConfig = { preset };
       applyTheme(currentThemeConfig);
-      
-      // Update UI
       document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
-      document.querySelector(`[data-theme="${preset}"]`).classList.add('active');
+      document.querySelector(\`[data-theme="\${preset}"]\`).classList.add('active');
     }
 
     function updateCustomColor(key, value) {
       if (!currentThemeConfig.custom) currentThemeConfig.custom = {};
       currentThemeConfig.custom[key] = value;
       currentThemeConfig.preset = 'custom';
-      
-      // Update text input
-      const textInput = document.getElementById(`text${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+      const textInput = document.getElementById(\`text\${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}\`);
       if (textInput) textInput.value = value;
-      
       applyTheme(currentThemeConfig);
       document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
     }
 
     function updateCustomColorFromText(key, value) {
       if (!value.match(/^#[0-9A-F]{6}$/i)) return;
-      
       if (!currentThemeConfig.custom) currentThemeConfig.custom = {};
       currentThemeConfig.custom[key] = value;
       currentThemeConfig.preset = 'custom';
-      
-      // Update color input
-      const colorInput = document.getElementById(`color${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}`);
+      const colorInput = document.getElementById(\`color\${key.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('')}\`);
       if (colorInput) colorInput.value = value;
-      
       applyTheme(currentThemeConfig);
       document.querySelectorAll('.theme-preset').forEach(p => p.classList.remove('active'));
     }
 
     async function saveTheme() {
       try {
+        const currentFont = getComputedStyle(document.body).getPropertyValue('--font-family').replace(/'/g, '').trim();
         const { error } = await supabase
           .from('users')
-          .update({ theme: currentThemeConfig })
+          .update({ theme: currentThemeConfig, font_family: currentFont })
           .eq('id', currentUser.id);
-        
         if (error) throw error;
-        
         currentUser.theme = currentThemeConfig;
+        currentUser.font_family = currentFont;
         localStorage.setItem('ryb-user', JSON.stringify(currentUser));
         closeThemeSettings();
       } catch (error) {
@@ -1420,9 +1589,37 @@
       if (currentUser.theme) {
         applyTheme(currentUser.theme);
       }
+      if (currentUser.font_family) {
+        document.body.style.setProperty('--font-family', \`'\${currentUser.font_family}'\`);
+      }
     }
 
-    // Password hashing
+    function renderFontOptions() {
+      const grid = document.getElementById('fontGrid');
+      const currentFont = currentUser.font_family || 'Segoe UI';
+      grid.innerHTML = AVAILABLE_FONTS.map(font => {
+        const isActive = font.name === currentFont;
+        return \`
+          <div class="font-option \${isActive ? 'active' : ''}" onclick="selectFont('\${font.name}')">
+            <div class="font-name">\${font.name}</div>
+            <div class="font-preview" style="font-family: '\${font.name}';">\${font.example}</div>
+          </div>
+        \`;
+      }).join('');
+    }
+
+    function selectFont(fontName) {
+      document.body.style.setProperty('--font-family', \`'\${fontName}'\`);
+      document.querySelectorAll('.font-option').forEach(opt => {
+        const optName = opt.querySelector('.font-name').textContent;
+        if (optName === fontName) {
+          opt.classList.add('active');
+        } else {
+          opt.classList.remove('active');
+        }
+      });
+    }
+
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password + 'ryb-salt-2024');
@@ -1431,7 +1628,6 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Auth
     function showError(message) {
       const el = document.getElementById('authError');
       el.textContent = message;
@@ -1484,7 +1680,7 @@
         const { data, error } = await supabase.from('users').insert([{ username, password_hash: passwordHash }]).select().single();
         if (error) throw error;
         currentUser = data;
-        localStorage.setItem('ryb-user', JSON.stringify(data));
+        localStorage.setItem('ryb-user', JSON.stringify(currentUser));
         showChat();
       } catch (error) {
         console.error('Register error:', error);
@@ -1507,6 +1703,7 @@
       loadUserTheme();
       updateUserMenu();
       await loadUsers();
+      await loadRooms();
       await loadMessages();
       await loadReactions();
       subscribeToAll();
@@ -1518,30 +1715,17 @@
       const avatarEl = document.getElementById('userMenuAvatar');
       const nameEl = document.getElementById('userMenuName');
       nameEl.textContent = currentUser.username;
-      avatarEl.innerHTML = currentUser.avatar_url ? `<img src="${currentUser.avatar_url}">` : currentUser.username.charAt(0).toUpperCase();
+      avatarEl.innerHTML = currentUser.avatar_url ? \`<img src="\${currentUser.avatar_url}">\` : currentUser.username.charAt(0).toUpperCase();
     }
 
     function toggleDropdown() { document.getElementById('dropdown').classList.toggle('active'); }
     function toggleOnlinePanel() { document.getElementById('onlinePanel').classList.toggle('active'); }
 
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.user-menu') && !e.target.closest('.dropdown')) {
-        document.getElementById('dropdown').classList.remove('active');
-      }
-      if (!e.target.closest('.online-users') && !e.target.closest('.online-panel')) {
-        document.getElementById('onlinePanel').classList.remove('active');
-      }
-      if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-action')) {
-        document.querySelectorAll('.reaction-picker').forEach(p => p.classList.remove('active'));
-      }
-    });
-
-    // Profile
     function openProfile() {
       document.getElementById('dropdown').classList.remove('active');
       document.getElementById('profileModal').classList.add('active');
       const preview = document.getElementById('profileAvatarPreview');
-      preview.innerHTML = currentUser.avatar_url ? `<img src="${currentUser.avatar_url}">` : currentUser.username.charAt(0).toUpperCase();
+      preview.innerHTML = currentUser.avatar_url ? \`<img src="\${currentUser.avatar_url}">\` : currentUser.username.charAt(0).toUpperCase();
     }
 
     function closeProfile() {
@@ -1555,7 +1739,7 @@
       if (file.size > 2 * 1024 * 1024) { alert('Avatar too large. Max 2MB.'); return; }
       const reader = new FileReader();
       reader.onload = (e) => {
-        document.getElementById('profileAvatarPreview').innerHTML = `<img src="${e.target.result}">`;
+        document.getElementById('profileAvatarPreview').innerHTML = \`<img src="\${e.target.result}">\`;
         pendingAvatar = file;
       };
       reader.readAsDataURL(file);
@@ -1565,7 +1749,7 @@
       if (!pendingAvatar) { closeProfile(); return; }
       try {
         const fileExt = pendingAvatar.name.split('.').pop();
-        const fileName = `avatar-${currentUser.id}-${Date.now()}.${fileExt}`;
+        const fileName = \`avatar-\${currentUser.id}-\${Date.now()}.\${fileExt}\`;
         const { error: uploadError } = await supabase.storage.from('images').upload(fileName, pendingAvatar, { cacheControl: '3600', upsert: false });
         if (uploadError) throw uploadError;
         const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
@@ -1582,7 +1766,6 @@
       }
     }
 
-    // Presence
     async function updatePresence(isOnline, isTyping) {
       if (!currentUser) return;
       try {
@@ -1609,15 +1792,15 @@
       document.getElementById('onlineCountNum').textContent = users.length;
       list.innerHTML = users.map(p => {
         const user = usersCache[p.user_id] || { username: p.username, avatar_url: null };
-        return `
+        return \`
           <div class="online-user">
             <div class="online-user-avatar">
-              ${user.avatar_url ? `<img src="${user.avatar_url}">` : user.username.charAt(0).toUpperCase()}
+              \${user.avatar_url ? \`<img src="\${user.avatar_url}">\` : user.username.charAt(0).toUpperCase()}
               <div class="status-dot"></div>
             </div>
-            <span class="online-user-name">${escapeHtml(user.username)}</span>
+            <span class="online-user-name">\${escapeHtml(user.username)}</span>
           </div>
-        `;
+        \`;
       }).join('');
     }
 
@@ -1630,13 +1813,12 @@
       }
       const names = typingUsers.map(p => p.username);
       let text = '';
-      if (names.length === 1) text = `<strong>${escapeHtml(names[0])}</strong> is typing`;
-      else if (names.length === 2) text = `<strong>${escapeHtml(names[0])}</strong> and <strong>${escapeHtml(names[1])}</strong> are typing`;
-      else text = `<strong>${names.length} people</strong> are typing`;
-      indicator.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div><span>${text}...</span>`;
+      if (names.length === 1) text = \`<strong>\${escapeHtml(names[0])}</strong> is typing\`;
+      else if (names.length === 2) text = \`<strong>\${escapeHtml(names[0])}</strong> and <strong>\${escapeHtml(names[1])}</strong> are typing\`;
+      else text = \`<strong>\${names.length} people</strong> are typing\`;
+      indicator.innerHTML = \`<div class="typing-dots"><span></span><span></span><span></span></div><span>\${text}...</span>\`;
     }
 
-    // Utilities
     function getUserColor(username) {
       let hash = 0;
       for (let i = 0; i < username.length; i++) hash = username.charCodeAt(i) + ((hash << 5) - hash);
@@ -1675,16 +1857,15 @@
     function processMessageContent(text) {
       let escaped = escapeHtml(text);
       escaped = escaped.replace(/@(\w+)/g, (match, username) => {
-        const isMentioningMe = username.toLowerCase() === currentUser.username.toLowerCase();
-        return `<span class="mention" data-user="${username}">${match}</span>`;
+        return \`<span class="mention" data-user="\${username}">\${match}</span>\`;
       });
       const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
-      escaped = escaped.replace(imageRegex, (url) => `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`);
+      escaped = escaped.replace(imageRegex, (url) => \`<img src="\${url}" onclick="openImageModal('\${url}')" onerror="this.style.display='none'" loading="lazy">\`);
       return escaped;
     }
 
     function isMentioned(content) {
-      const regex = new RegExp(`@${currentUser.username}\\b`, 'i');
+      const regex = new RegExp(\`@\${currentUser.username}\\\\b\`, 'i');
       return regex.test(content);
     }
 
@@ -1696,7 +1877,6 @@
 
     function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); }
 
-    // Reply & Edit
     function setReply(messageId, username, text) {
       cancelEdit();
       replyingTo = { id: messageId, username, text };
@@ -1718,19 +1898,18 @@
       document.getElementById('messageInput').value = msg.content;
       document.getElementById('editBar').classList.add('active');
       document.getElementById('messageInput').focus();
-      document.getElementById(`msg-${messageId}`)?.classList.add('editing');
+      document.getElementById(\`msg-\${messageId}\`)?.classList.add('editing');
     }
 
     function cancelEdit() {
       if (editingMessage) {
-        document.getElementById(`msg-${editingMessage.id}`)?.classList.remove('editing');
+        document.getElementById(\`msg-\${editingMessage.id}\`)?.classList.remove('editing');
       }
       editingMessage = null;
       document.getElementById('messageInput').value = '';
       document.getElementById('editBar').classList.remove('active');
     }
 
-    // Delete
     function promptDelete(messageId) {
       deleteMessageId = messageId;
       document.getElementById('deleteModal').classList.add('active');
@@ -1745,7 +1924,7 @@
       if (!deleteMessageId) return;
       try {
         await supabase.from('messages').delete().eq('id', deleteMessageId);
-        document.getElementById(`msg-${deleteMessageId}`)?.remove();
+        document.getElementById(\`msg-\${deleteMessageId}\`)?.remove();
         allMessages = allMessages.filter(m => m.id !== deleteMessageId);
         closeDeleteModal();
       } catch (e) {
@@ -1754,7 +1933,6 @@
       }
     }
 
-    // Reactions
     async function loadReactions() {
       const { data } = await supabase.from('reactions').select('*');
       reactionsCache = {};
@@ -1822,7 +2000,6 @@
       }
     }
 
-    // Image upload
     document.getElementById('fileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -1861,7 +2038,6 @@
       }
     }
 
-    // Mentions
     function showMentionSuggestions(query) {
       const container = document.getElementById('mentionSuggestions');
       const users = Object.values(usersCache).filter(u => 
@@ -1900,7 +2076,6 @@
       hideMentionSuggestions();
     }
 
-    // Messages
     async function loadUsers() {
       const { data } = await supabase.from('users').select('*');
       data?.forEach(u => usersCache[u.id] = u);
@@ -1918,16 +2093,140 @@
       return allMessages.find(m => m.id === id);
     }
 
+    async function loadRooms() {
+      try {
+        const { data, error } = await supabase.from('rooms').select('*').order('created_at');
+        if (error) throw error;
+        allRooms = data || [];
+        const { data: messageCounts } = await supabase.from('messages').select('room_id');
+        roomMessageCounts = {};
+        messageCounts?.forEach(m => {
+          roomMessageCounts[m.room_id] = (roomMessageCounts[m.room_id] || 0) + 1;
+        });
+        if (!currentRoom && allRooms.length > 0) {
+          currentRoom = allRooms[0];
+        }
+        renderRoomsList();
+        updateCurrentRoomDisplay();
+      } catch (error) {
+        console.error('Error loading rooms:', error);
+      }
+    }
+
+    function renderRoomsList() {
+      const list = document.getElementById('roomsList');
+      list.innerHTML = allRooms.map(room => {
+        const count = roomMessageCounts[room.id] || 0;
+        const isActive = currentRoom && currentRoom.id === room.id;
+        return `
+          <div class="room-item ${isActive ? 'active' : ''}" onclick="switchRoom(${room.id})">
+            <div class="room-item-info">
+              <div class="room-item-name"># ${escapeHtml(room.name)}</div>
+              ${room.description ? `<div class="room-item-desc">${escapeHtml(room.description)}</div>` : ''}
+            </div>
+            <span class="room-item-count">${count}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateCurrentRoomDisplay() {
+      if (currentRoom) {
+        document.getElementById('currentRoomName').textContent = `# ${currentRoom.name}`;
+      }
+    }
+
+    async function switchRoom(roomId) {
+      const room = allRooms.find(r => r.id === roomId);
+      if (!room) return;
+      currentRoom = room;
+      updateCurrentRoomDisplay();
+      renderRoomsList();
+      closeRoomsDropdown();
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = '<div class="welcome"><h2>Loading messages...</h2></div>';
+      await loadMessages();
+    }
+
+    function toggleRoomsDropdown() {
+      const dropdown = document.getElementById('roomsDropdown');
+      const icon = document.getElementById('roomDropdownIcon');
+      dropdown.classList.toggle('active');
+      icon.classList.toggle('active');
+      document.getElementById('dropdown').classList.remove('active');
+      document.getElementById('onlinePanel').classList.remove('active');
+    }
+
+    function closeRoomsDropdown() {
+      document.getElementById('roomsDropdown').classList.remove('active');
+      document.getElementById('roomDropdownIcon').classList.remove('active');
+    }
+
+    function openCreateRoom() {
+      closeRoomsDropdown();
+      document.getElementById('createRoomModal').classList.add('active');
+      document.getElementById('newRoomName').value = '';
+      document.getElementById('newRoomDesc').value = '';
+      document.getElementById('createRoomError').style.display = 'none';
+    }
+
+    function closeCreateRoom() {
+      document.getElementById('createRoomModal').classList.remove('active');
+    }
+
+    async function createRoom() {
+      const name = document.getElementById('newRoomName').value.trim().toLowerCase();
+      const description = document.getElementById('newRoomDesc').value.trim();
+      const errorEl = document.getElementById('createRoomError');
+      if (!name) {
+        errorEl.textContent = 'Room name is required';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (name.length < 2) {
+        errorEl.textContent = 'Room name must be at least 2 characters';
+        errorEl.style.display = 'block';
+        return;
+      }
+      if (!/^[a-z0-9-]+$/.test(name)) {
+        errorEl.textContent = 'Room name can only contain lowercase letters, numbers, and hyphens';
+        errorEl.style.display = 'block';
+        return;
+      }
+      try {
+        const { data, error } = await supabase.from('rooms').insert([{
+          name,
+          description: description || null,
+          created_by: currentUser.id
+        }]).select().single();
+        if (error) {
+          if (error.code === '23505') {
+            errorEl.textContent = 'Room name already exists';
+          } else {
+            errorEl.textContent = 'Failed to create room';
+          }
+          errorEl.style.display = 'block';
+          return;
+        }
+        allRooms.push(data);
+        renderRoomsList();
+        closeCreateRoom();
+        switchRoom(data.id);
+      } catch (error) {
+        console.error('Create room error:', error);
+        errorEl.textContent = 'Failed to create room';
+        errorEl.style.display = 'block';
+      }
+    }
+
     function addMessageToUI(message, isPending = false) {
       const messagesDiv = document.getElementById('messages');
       messagesDiv.querySelector('.welcome')?.remove();
       if (!isPending && document.getElementById(`msg-${message.id}`)) return;
-
       const user = isPending ? currentUser : getUser(message.user_id);
       const username = message.username || user.username;
       const mentioned = isMentioned(message.content);
       const isOwn = message.user_id === currentUser.id;
-
       let replyHtml = '';
       if (message.reply_to) {
         const original = findMessageById(message.reply_to);
@@ -1940,7 +2239,6 @@
           </div>`;
         }
       }
-
       const msgEl = document.createElement('div');
       msgEl.className = `message ${isPending ? 'pending' : ''} ${mentioned ? 'mentioned' : ''}`;
       msgEl.id = isPending ? `pending-${message.id}` : `msg-${message.id}`;
@@ -1966,7 +2264,6 @@
         ` : ''}
       `;
       messagesDiv.appendChild(msgEl);
-
       if (isAtBottom) scrollToBottom();
       else document.getElementById('newMsgBtn').style.display = 'block';
     }
@@ -1983,14 +2280,15 @@
     }
 
     async function loadMessages() {
+      if (!currentRoom) return;
       try {
-        const { data, error } = await supabase.from('messages').select('*').order('created_at', { ascending: true });
+        const { data, error } = await supabase.from('messages').select('*').eq('room_id', currentRoom.id).order('created_at', { ascending: true });
         if (error) throw error;
         allMessages = data || [];
         const messagesDiv = document.getElementById('messages');
         messagesDiv.innerHTML = '';
         if (allMessages.length === 0) {
-          messagesDiv.innerHTML = '<div class="welcome"><h2>Welcome to RYB Chat</h2><p>This is the start of your conversation.</p></div>';
+          messagesDiv.innerHTML = `<div class="welcome"><h2>Welcome to #${currentRoom.name}</h2><p>${currentRoom.description || 'This is the start of your conversation.'}</p></div>`;
         } else {
           allMessages.forEach(msg => addMessageToUI(msg));
         }
@@ -2005,17 +2303,21 @@
         .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, (payload) => {
           if (payload.eventType === 'INSERT') {
             const msg = payload.new;
+            if (msg.room_id !== currentRoom.id) return;
             if (allMessages.find(m => m.id === msg.id)) return;
             allMessages.push(msg);
             document.querySelector(`[id^="pending-"]`)?.remove();
             addMessageToUI(msg);
             document.getElementById('messageCount').textContent = `${allMessages.length} msgs`;
+            roomMessageCounts[msg.room_id] = (roomMessageCounts[msg.room_id] || 0) + 1;
+            renderRoomsList();
             if (!windowFocused && msg.user_id !== currentUser.id) {
               setFavicon(true);
               document.title = '● RYB Chat';
             }
           } else if (payload.eventType === 'UPDATE') {
             const msg = payload.new;
+            if (msg.room_id !== currentRoom.id) return;
             const idx = allMessages.findIndex(m => m.id === msg.id);
             if (idx >= 0) allMessages[idx] = msg;
             updateMessageInUI(msg);
@@ -2023,6 +2325,27 @@
             const id = payload.old.id;
             document.getElementById(`msg-${id}`)?.remove();
             allMessages = allMessages.filter(m => m.id !== id);
+            if (payload.old.room_id) {
+              roomMessageCounts[payload.old.room_id] = Math.max(0, (roomMessageCounts[payload.old.room_id] || 1) - 1);
+              renderRoomsList();
+            }
+          }
+        })
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'rooms' }, (payload) => {
+          if (payload.eventType === 'INSERT') {
+            allRooms.push(payload.new);
+            renderRoomsList();
+          } else if (payload.eventType === 'UPDATE') {
+            const idx = allRooms.findIndex(r => r.id === payload.new.id);
+            if (idx >= 0) allRooms[idx] = payload.new;
+            renderRoomsList();
+            updateCurrentRoomDisplay();
+          } else if (payload.eventType === 'DELETE') {
+            allRooms = allRooms.filter(r => r.id !== payload.old.id);
+            if (currentRoom && currentRoom.id === payload.old.id) {
+              switchRoom(allRooms[0]?.id);
+            }
+            renderRoomsList();
           }
         })
         .on('postgres_changes', { event: '*', schema: 'public', table: 'presence' }, (payload) => {
@@ -2068,7 +2391,6 @@
 
     async function sendMessage() {
       let content = document.getElementById('messageInput').value.trim();
-
       if (editingMessage) {
         if (!content) { cancelEdit(); return; }
         try {
@@ -2077,16 +2399,13 @@
         } catch (e) { console.error('Edit error:', e); alert('Failed to edit'); }
         return;
       }
-
       if (pendingImage) {
         const imageUrl = await uploadImage(pendingImage);
         if (imageUrl) content = content ? `${content} ${imageUrl}` : imageUrl;
         else return;
         cancelImage();
       }
-
       if (!content) return;
-
       document.getElementById('sendBtn').disabled = true;
       const tempId = Date.now();
       const pendingMessage = {
@@ -2103,13 +2422,13 @@
       const replyToId = replyingTo?.id || null;
       cancelReply();
       updatePresence(true, false);
-
       try {
         const { error } = await supabase.from('messages').insert([{
           user_id: currentUser.id,
           username: currentUser.username,
           content,
-          reply_to: replyToId
+          reply_to: replyToId,
+          room_id: currentRoom.id
         }]);
         if (error) throw error;
         document.getElementById(`pending-${tempId}`)?.remove();
@@ -2121,24 +2440,19 @@
       document.getElementById('sendBtn').disabled = false;
     }
 
-    // Input handling
     const messageInput = document.getElementById('messageInput');
-    
     messageInput.addEventListener('input', (e) => {
       const val = e.target.value;
       const count = val.length;
       const counter = document.getElementById('charCount');
       counter.textContent = count > 400 ? `${count}/500` : '';
       counter.className = count > 480 ? 'char-count warning' : 'char-count';
-
       updatePresence(true, true);
       clearTimeout(typingTimeout);
       typingTimeout = setTimeout(() => updatePresence(true, false), 2000);
-
       const cursorPos = e.target.selectionStart;
       const textBeforeCursor = val.substring(0, cursorPos);
       const mentionMatch = textBeforeCursor.match(/@(\w*)$/);
-      
       if (mentionMatch) {
         mentionStartPos = mentionMatch.index;
         mentionQuery = mentionMatch[1];
@@ -2151,7 +2465,6 @@
     messageInput.addEventListener('keydown', (e) => {
       const suggestions = document.getElementById('mentionSuggestions');
       const isShowingSuggestions = suggestions.classList.contains('active');
-      
       if (isShowingSuggestions) {
         const items = suggestions.querySelectorAll('.mention-suggestion');
         if (e.key === 'ArrowDown') {
@@ -2187,6 +2500,22 @@
         closeProfile();
         closeDeleteModal();
         closeThemeSettings();
+        closeCreateRoom();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.user-menu') && !e.target.closest('.dropdown')) {
+        document.getElementById('dropdown').classList.remove('active');
+      }
+      if (!e.target.closest('.online-users') && !e.target.closest('.online-panel')) {
+        document.getElementById('onlinePanel').classList.remove('active');
+      }
+      if (!e.target.closest('.room-switcher') && !e.target.closest('.rooms-dropdown')) {
+        closeRoomsDropdown();
+      }
+      if (!e.target.closest('.reaction-picker') && !e.target.closest('.message-action')) {
+        document.querySelectorAll('.reaction-picker').forEach(p => p.classList.remove('active'));
       }
     });
 
@@ -2213,7 +2542,6 @@
 
     document.getElementById('messages').addEventListener('scroll', checkScrollPosition);
 
-    // Init
     const savedUser = localStorage.getItem('ryb-user');
     if (savedUser) {
       try {
