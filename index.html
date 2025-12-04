@@ -1224,8 +1224,8 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmaWxtc3VhdWhtaG1sYXRxb3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwODM4MDksImV4cCI6MjA3OTY1OTgwOX0.H50budPYVnFIOfW63M9A9RjX4cUPlVTDh3qHkOMCCI0';
    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
-    persistSession: false,
-    autoRefreshToken: false
+    persistSession: true,
+    autoRefreshToken: true
   },
   db: {
     schema: 'public'
@@ -1844,22 +1844,48 @@
     }
 
     async function uploadImage(file) {
-      document.getElementById('uploadProgress').textContent = 'Uploading...';
-      try {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const { error } = await supabase.storage.from('images').upload(fileName, file, { cacheControl: '3600', upsert: false });
-        if (error) throw error;
-        const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
-        document.getElementById('uploadProgress').textContent = '';
-        return urlData.publicUrl;
-      } catch (error) {
-        console.error('Upload error:', error);
-        document.getElementById('uploadProgress').textContent = 'Upload failed';
-        setTimeout(() => { document.getElementById('uploadProgress').textContent = ''; }, 3000);
-        return null;
-      }
+  document.getElementById('uploadProgress').textContent = 'Uploading...';
+  console.log('=== UPLOAD DEBUG START ===');
+  console.log('File:', file.name, 'Size:', file.size, 'Type:', file.type);
+  
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+    
+    console.log('Bucket: images');
+    console.log('Filename:', fileName);
+    console.log('Current user:', currentUser);
+    
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(fileName, file, { 
+        cacheControl: '3600', 
+        upsert: false 
+      });
+    
+    console.log('Upload result - Data:', data);
+    console.log('Upload result - Error:', error);
+    
+    if (error) {
+      console.error('Upload failed:', error.message, error);
+      alert('Upload failed: ' + error.message);
+      document.getElementById('uploadProgress').textContent = '';
+      return null;
     }
+    
+    const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
+    console.log('Public URL:', urlData.publicUrl);
+    console.log('=== UPLOAD DEBUG END ===');
+    
+    document.getElementById('uploadProgress').textContent = '';
+    return urlData.publicUrl;
+  } catch (error) {
+    console.error('Upload exception:', error);
+    document.getElementById('uploadProgress').textContent = 'Upload failed: ' + error.message;
+    setTimeout(() => { document.getElementById('uploadProgress').textContent = ''; }, 3000);
+    return null;
+  }
+}
 
     // Mentions
     function showMentionSuggestions(query) {
