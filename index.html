@@ -1859,28 +1859,36 @@
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     
-    console.log('Bucket: images');
+    console.log('Uploading to bucket: images');
     console.log('Filename:', fileName);
-    console.log('Current user:', currentUser);
     
-    const { data, error } = await supabase.storage
+    // Try upload
+    const uploadResult = await supabase.storage
       .from('images')
       .upload(fileName, file, { 
         cacheControl: '3600', 
         upsert: false 
       });
     
-    console.log('Upload result - Data:', data);
-    console.log('Upload result - Error:', error);
+    console.log('Full upload result:', JSON.stringify(uploadResult, null, 2));
     
-    if (error) {
-      console.error('Upload failed:', error.message, error);
-      alert('Upload failed: ' + error.message);
+    if (uploadResult.error) {
+      console.error('Upload error:', uploadResult.error);
+      alert('Upload failed: ' + uploadResult.error.message);
       document.getElementById('uploadProgress').textContent = '';
       return null;
     }
     
-    const { data: urlData } = supabase.storage.from('images').getPublicUrl(fileName);
+    if (!uploadResult.data || !uploadResult.data.path) {
+      console.error('No path in upload result:', uploadResult);
+      alert('Upload failed - no path returned');
+      document.getElementById('uploadProgress').textContent = '';
+      return null;
+    }
+    
+    console.log('Upload successful! Path:', uploadResult.data.path);
+    
+    const { data: urlData } = supabase.storage.from('images').getPublicUrl(uploadResult.data.path);
     console.log('Public URL:', urlData.publicUrl);
     console.log('=== UPLOAD DEBUG END ===');
     
@@ -1888,8 +1896,8 @@
     return urlData.publicUrl;
   } catch (error) {
     console.error('Upload exception:', error);
-    document.getElementById('uploadProgress').textContent = 'Upload failed: ' + error.message;
-    setTimeout(() => { document.getElementById('uploadProgress').textContent = ''; }, 3000);
+    alert('Upload exception: ' + error.message);
+    document.getElementById('uploadProgress').textContent = '';
     return null;
   }
 }
