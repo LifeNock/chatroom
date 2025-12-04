@@ -1673,15 +1673,22 @@
     }
 
     function processMessageContent(text) {
-      let escaped = escapeHtml(text);
-      escaped = escaped.replace(/@(\w+)/g, (match, username) => {
-        const isMentioningMe = username.toLowerCase() === currentUser.username.toLowerCase();
-        return `<span class="mention" data-user="${username}">${match}</span>`;
-      });
-      const imageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s]*)?|https?:\/\/[^\s]*supabase[^\s]*\/storage\/[^\s]+)/gi;
-      escaped = escaped.replace(imageRegex, (url) => `<img src="${url}" onclick="openImageModal('${url}')" onerror="this.style.display='none'" loading="lazy">`);
-      return escaped;
-    }
+  let escaped = escapeHtml(text);
+  
+  // Process mentions
+  escaped = escaped.replace(/@(\w+)/g, (match, username) => {
+    return `<span class="mention" data-user="${username}">${match}</span>`;
+  });
+  
+  // Improved image regex to catch Supabase URLs better
+  const imageRegex = /(https?:\/\/[^\s<>"]+\.(?:png|jpg|jpeg|gif|webp)(?:\?[^\s<>"]*)?)/gi;
+  escaped = escaped.replace(imageRegex, (url) => {
+    console.log('Found image URL:', url); // Debug log
+    return `<img src="${url}" onclick="openImageModal('${url}')" onerror="console.error('Image load failed:', '${url}'); this.style.display='none';" loading="lazy">`;
+  });
+  
+  return escaped;
+}
 
     function isMentioned(content) {
       const regex = new RegExp(`@${currentUser.username}\\b`, 'i');
